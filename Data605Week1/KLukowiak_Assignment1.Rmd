@@ -1,0 +1,153 @@
+---
+title: "HomeWorkW1"
+author: "Kai Lukowiak"
+date: "January 30, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Problem Set 1
+## 1
+Calculate the dot product u.v where u = [0.5; 0.5] and v = [3; −4]
+
+```{r}
+u <- c(0.5, 0.5)
+v <- c(3, -4)
+print(paste("The dot product of u, v is:", u %*% v))
+```
+
+## 2
+What are the lengths of u and v? Please note that the mathematical notion of the
+length of a vector is not the same as a computer science definition.
+
+The length of a vector is given by the euclidean distance or by use of the Pythagoras therm. 
+
+The formula for this is $x^2 + y^2 = z^2$ as such:
+
+```{r}
+LenU <- sqrt(sum(u^2))
+LenV <- sqrt(sum(v^2))
+print(paste('The length of u is ', LenU, 'and the length of v is', LenV))
+```
+
+## 3
+What is the linear combination: 3u − 2v? 
+```{r}
+linComb <- 3 * u - 2 * v
+print(paste(c('The linear combination of the vectors and constants is:', linComb), collapse = " "))
+```
+
+## 4 
+
+What is the angle between u and v?
+
+The angel can be given with the $cosin$ distance.
+
+Special thanks to [this stackoverflow question.](https://stackoverflow.com/questions/1897704/angle-between-two-vectors-in-r)
+
+```{r}
+theta <- acos( sum(u*v) / ( sqrt(sum(u * u)) * sqrt(sum(v * v)))) 
+theta * 180 / pi
+```
+
+# Problem Set 2
+
+Set up a system of equations with 3 variables and 3 constraints and solve for x. Please
+write a function in R that will take two variables (matrix A & constraint vector b) and
+solve using elimination. Your function should produce the right answer for the system of
+equations for any 3-variable, 3-equation system. You don’t have to worry about degenerate
+cases and can safely assume that the function will only be tested with a system of equations
+that has a solution. Please note that you do have to worry about zero pivots, though. Please
+note that you should not use the built-in function solve to solve this system or use matrix
+inverses. The approach that you should employ is to construct an Upper Triangular Matrix
+and then back-substitute to get the solution. Alternatively, you can augment the matrix
+A with vector b and jointly apply the Gauss Jordan elimination procedure.
+12
+IS 605 FUNDAMENTALS OF COMPUTATIONAL MATHEMATICS - FALL 2014
+Please test it with the system below and it should produce a solution x = [−1.55, −0.32, 0.95]
+
+$$\mathbf{} \left[\begin{array}
+{rrr}
+1 & 1 & 3 \\
+2 & -1 & 5 \\
+-1 & -2 & 4
+\end{array}\right]
+%
+\left[ \begin{array}{ccc}
+1  \\
+2 \\
+6
+\end{array} \right]
+$$
+
+
+Please send your code (as an R-markdown file, named using your first initial, last name,
+assignment, problem set. For instance, if I submit the code for this assignment, it will be
+called GIyengar Assign1.Rmd
+
+## Solution:
+
+Instead of writing out a function that would do the exact steps I wanted to use loops to make my code shorter. I went down quite the rabbit hole trying to make it work with `for` loops but this was exceedingly difficult. 
+
+I stumbled upon [this](https://stackoverflow.com/questions/16044377/how-to-do-gaussian-elimination-in-r-do-not-use-solve) that would work on any n dimensional matrix. I modified it to work in a function. The result as shown below the initial solution works on matrixies of any size.
+
+```{r}
+
+matrixA <- matrix( 
+  c(1,1,3,2,-1,5,-1,-2,4),
+  nrow=3,
+  byrow = TRUE)
+
+vectorb <- matrix( 
+  c(1,2,6),
+  ncol=1,
+  byrow = TRUE)
+```
+
+```{r}
+loopFunc <- function(A, b){
+  p <- nrow(A)
+  aug <- cbind(A, b)
+  aug[1, ] <- aug[1, ] / aug[1,1] # Normaliz the fist number to 1. This makes everything easier.
+  
+  i <- 2 # So that we don't run the code on an index out of range e.g., A[1-1, ]
+  while (i < p + 1) {
+    j <- i # This effectively sets the loop to go over one set and then the other. 
+    while (j < p + 1) {
+      aug[j, ] <- aug[j, ] - aug[i -1, ] * aug[j, i-1] # The last argument here works because we normalized the first row to 1
+      # The above command also sets the jth row of the matrix to the correct result.
+      j <- j + 1 # This makes the code easier than in a for loop.
+    }
+    while (aug[i, i] == 0) {
+      aug <- rbind(aug[-1], aug[i]) # Checks to make sure that we don't have zero devision 
+    }
+    aug[i, ] <- aug[i, ] / aug[i, i] # Scales the row  to 1 again, making calculations easier. 
+    i <- i + 1
+  }
+  for (i in p:2) {
+    # p is now a large number and we need to go in reverse to solve the upper triangle.
+    for (j in i:2-1) { # The same logic holds here but for the second element. 
+      aug[j, ] <- aug[j, ] - aug[i, ] * aug[j, i] # Solves the rows going up. 
+    }
+  }
+  return(aug)
+}
+mx <- loopFunc(matrixA, vectorb)
+mx
+```
+
+
+### N > 3 Dimensions:
+
+```{r}
+set.seed(101)
+A <- matrix(floor(runif(100, 1,11)) , 10)
+b = floor(runif(10, 1 , 11))
+A
+b
+loopFunc(A, b)
+```
+
