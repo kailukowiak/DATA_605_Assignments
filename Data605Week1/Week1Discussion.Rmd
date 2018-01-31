@@ -1,0 +1,53 @@
+---
+title: "Week1Exercies"
+author: "Kai Lukowiak"
+date: "January 31, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Exercies for the chapter readings of week 1.
+
+$$
+x + y − z = −1 \\
+x − y − z = −1\\
+z =2
+$$
+
+
+### Setting up the matrixies:
+
+```{r}
+M <- matrix(c(1, 1, -1, 1, -1, -1, 0, 0, 1), ncol = 3)
+v <- matrix(c(-1, -1, 2),ncol = 1)
+M
+v
+```
+
+### Using the solve function:
+
+```{r}
+sol <- solve(M,v)
+sol
+```
+
+### Testing it.
+
+```{r}
+M %*% sol
+```
+
+```{r}
+t(M) * M 
+
+# That looks good
+```
+
+```{r}
+solve(M) %*% v # This way is a bit more by hand since we actually multiply the invers matrix by v. 
+```
+
