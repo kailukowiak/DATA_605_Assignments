@@ -22,7 +22,7 @@ $$
 ### Setting up the matrixies:
 
 ```{r}
-M <- matrix(c(1, 1, -1, 1, -1, -1, 0, 0, 1), ncol = 3)
+M <- matrix(c(1, 1, -1, 1, -1, -1, 0, 0, 1), ncol = 3, byrow = TRUE)
 v <- matrix(c(-1, -1, 2),ncol = 1)
 M
 v

@@ -1,0 +1,84 @@
+---
+title: "Assignment 2"
+author: "Kai Lukowiak"
+date: '2018-02-06'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Problem Set 1
+## 1. Show that $A^T A \neq AA^T$ in general. (Proof and demonstration.)
+
+Proof by contradiction:
+Let:
+$$
+A =
+\begin{bmatrix}
+    a & b \\
+    c & d \\
+\end{bmatrix}
+\\
+A^T = 
+\begin{bmatrix}
+    a & c \\
+    b & d \\
+\end{bmatrix}
+$$
+
+Therfore:
+
+$$
+A^TA = 
+\begin{bmatrix}
+    a^2+b^2 & ac + bd \\
+    ac +bd & c^2 + d^2 \\
+\end{bmatrix}
+\\
+AA^T = 
+\begin{bmatrix}
+    a^2+c^2 & ab + cd \\
+    ab - bd & b^2 + d^2 \\
+\end{bmatrix}
+$$
+
+Thus, we can see that $\forall\quad b \neq c$ the product of $A^TA \neq AA^T$. Therefor in general, unless the transposes are equal, they will not produce the same result. 
+
+
+## 2. 
+For a special type of square matrix A, we get $A^T A = AA^T$. Under what conditions could this be true? (Hint: The Identity matrix I is an example of such a matrix).
+
+See extended answer to 1. In general 
+
+# Problem Set 2
+Matrix factorization is a very important problem. There are supercomputers built just to do matrix factorizations. Every second you are on an airplane, matrices are being factorized. Radars that track flights use a technique called Kalman filtering. At the heart of Kalman Filtering is a Matrix Factorization operation. Kalman Filters are solving linear systems of equations when they track your flight using radars. Write an R function to factorize a square matrix A into LU or LDU, whichever you prefer. 
+
+
+Unfortunetly the solution we used for last weeks assignment is a bit complex to use for this case. Instead we will you a more baisic funciton that only worries about creating an upper trianglular matrix and then take the negative of the row multiplier and insert it into the correct position.
+
+
+
+```{r}
+set.seed(605)
+n <- 5
+A <- matrix(sample.int(10, size = n^2, replace = TRUE), ncol = n)
+A
+```
+
+
+```{r}
+matrixLU <- function(A){
+  U = A # to keep consistant formatting.
+  L = diag(x = 1, ncol = ncol(A), nrow = nrow(A)) # Square diagonal to populate cells.
+  
+  
+  
+  return(list('U' = U, 'L' = L))
+}
+
+matrixLU(A)
+```
+
