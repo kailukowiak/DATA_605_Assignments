@@ -29,7 +29,7 @@ A^T =
 \end{bmatrix}
 $$
 
-Therfore:
+Therefore:
 
 $$
 A^TA = 
@@ -47,17 +47,30 @@ $$
 
 Thus, we can see that $\forall\quad b \neq c$ the product of $A^TA \neq AA^T$. Therefor in general, unless the transposes are equal, they will not produce the same result. 
 
+```{r}
+A <- matrix(c(1,3,2,4), ncol = 2)
+
+identical(t(A) %*% A, A %*% t(A))
+```
+
+So we can see they are not identical, however...
+
+```{r}
+A <- matrix(c(1,3,3,4), ncol = 2)
+identical(t(A) %*% A, A %*% t(A))
+```
+So when the matrix can be inverted, it is true. 
 
 ## 2. 
 For a special type of square matrix A, we get $A^T A = AA^T$. Under what conditions could this be true? (Hint: The Identity matrix I is an example of such a matrix).
 
-See extended answer to 1. In general 
+See extended answer to 1. In general if the matrix has a transpose equal to the original matrix it will be have this characteristic. 
 
 # Problem Set 2
-Matrix factorization is a very important problem. There are supercomputers built just to do matrix factorizations. Every second you are on an airplane, matrices are being factorized. Radars that track flights use a technique called Kalman filtering. At the heart of Kalman Filtering is a Matrix Factorization operation. Kalman Filters are solving linear systems of equations when they track your flight using radars. Write an R function to factorize a square matrix A into LU or LDU, whichever you prefer. 
+Matrix factorization is a very important problem. There are supercomputers built just to do matrix factorization. Every second you are on an airplane, matrices are being factorized. Radars that track flights use a technique called Kalman filtering. At the heart of Kalman Filtering is a Matrix Factorization operation. Kalman Filters are solving linear systems of equations when they track your flight using radars. Write an R function to factorize a square matrix A into LU or LDU, whichever you prefer. 
 
 
-Unfortunetly the solution we used for last weeks assignment is a bit complex to use for this case. Instead we will you a more baisic funciton that only worries about creating an upper trianglular matrix and then take the negative of the row multiplier and insert it into the correct position.
+Unfortunately the solution we used for last weeks assignment is a bit complex to use for this case. Instead we will you a more basic function that only worries about creating an upper triangular matrix and then take the negative of the row multiplier and insert it into the correct position.
 
 
 
@@ -74,11 +87,31 @@ matrixLU <- function(A){
   U = A # to keep consistant formatting.
   L = diag(x = 1, ncol = ncol(A), nrow = nrow(A)) # Square diagonal to populate cells.
   
-  
-  
-  return(list('U' = U, 'L' = L))
+  # For loops to loop over elements in L and U
+  for (i in 1:(nrow(U) - 1)){
+    for (j in (i + 1):nrow(U)){
+      if (U[i, i] != 0){
+        multiplier = U[j, i] / U[i, i]
+        L[j, i] = multiplier
+        U[j, ] = U[j, ] - multiplier * U[i, ]
+      }
+    }
+  }
+  return(list('L' = L, 'U' = U))
 }
 
-matrixLU(A)
+X <- matrixLU(A)
+X$L
+X$U
+X$L %*% X$U
+```
+
+
+```{r}
+B <-  matrix(c(1:16), ncol = 4)
+X1 <- matrixLU(B)
+X1$L
+X1$U
+all.equal(X1$L %*% X1$U, B)
 ```
 
