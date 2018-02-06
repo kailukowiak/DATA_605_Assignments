@@ -70,7 +70,7 @@ See extended answer to 1. In general if the matrix has a transpose equal to the 
 Matrix factorization is a very important problem. There are supercomputers built just to do matrix factorization. Every second you are on an airplane, matrices are being factorized. Radars that track flights use a technique called Kalman filtering. At the heart of Kalman Filtering is a Matrix Factorization operation. Kalman Filters are solving linear systems of equations when they track your flight using radars. Write an R function to factorize a square matrix A into LU or LDU, whichever you prefer. 
 
 
-Unfortunately the solution we used for last weeks assignment is a bit complex to use for this case. Instead we will you a more basic function that only worries about creating an upper triangular matrix and then take the negative of the row multiplier and insert it into the correct position.
+Unfortunately the solution we used for last weeks assignment is a bit complex to use for this case. Instead we will you a more basic function that only worries about creating an upper triangular matrix and then take the negative of the row multiplier and insert it into the correct position. Special thanks to [this website](https://stackoverflow.com/questions/27802246/how-to-loop-through-a-matrix-rows-from-in-and-columns) for giving me an easier way to itterate over all rows. 
 
 
 

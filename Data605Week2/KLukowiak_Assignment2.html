@@ -177,7 +177,7 @@ identical(t(A) %*% A, A %*% t(A))</code></pre>
 <div id="problem-set-2" class="section level1">
 <h1>Problem Set 2</h1>
 <p>Matrix factorization is a very important problem. There are supercomputers built just to do matrix factorization. Every second you are on an airplane, matrices are being factorized. Radars that track flights use a technique called Kalman filtering. At the heart of Kalman Filtering is a Matrix Factorization operation. Kalman Filters are solving linear systems of equations when they track your flight using radars. Write an R function to factorize a square matrix A into LU or LDU, whichever you prefer.</p>
-<p>Unfortunately the solution we used for last weeks assignment is a bit complex to use for this case. Instead we will you a more basic function that only worries about creating an upper triangular matrix and then take the negative of the row multiplier and insert it into the correct position.</p>
+<p>Unfortunately the solution we used for last weeks assignment is a bit complex to use for this case. Instead we will you a more basic function that only worries about creating an upper triangular matrix and then take the negative of the row multiplier and insert it into the correct position. Special thanks to <a href="https://stackoverflow.com/questions/27802246/how-to-loop-through-a-matrix-rows-from-in-and-columns">this website</a> for giving me an easier way to itterate over all rows.</p>
 <pre class="r"><code>set.seed(605)
 n &lt;- 5
 A &lt;- matrix(sample.int(10, size = n^2, replace = TRUE), ncol = n)
