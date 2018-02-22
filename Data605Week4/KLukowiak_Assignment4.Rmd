@@ -1,0 +1,149 @@
+---
+title: "Assignment 4"
+author: "Kai Lukowiak"
+date: '2018-02-21'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+In this problem, we'll verify using R that SVD and Eigenvalues are related as worked
+out in the weekly module. Given a 3 x 2 matrix A
+
+```{r}
+A <- matrix(c(1,2,3,-1,0,4), byrow = T, ncol = 3)
+A
+```
+
+write code in R to compute $X = AA^T$ and $Y = A^TA$. Then, compute the eigenvalues
+and eigenvectors of X and Y using the built-in commands in R.
+
+```{r}
+X <- A %*% t(A)
+Y <- t(A) %*% A
+X
+Y
+```
+
+Then, compute the left-singular, singular values, and right-singular vectors of A using
+the svd command. Examine the two sets of singular vectors and show that they are indeed
+eigenvectors of X and Y. In addition, the two non-zero eigenvalues (the 3rd value will
+be very close to zero, if not zero) of both X and Y are the same and are squares of the
+non-zero singular values of A.
+Your code should compute all these vectors and scalars and store them in variables.
+Please add enough comments in your code to show me how to interpret your steps.
+```{r}
+eigenX <- eigen(X)
+```
+The Eigenvalues of X are: $\lambda_1 =$ `r eigenX$values[1]` and $\lambda_2 =$ `r eigenX$values[2]`
+
+The vectors are given by: 
+```{r echo=F}
+eigenX$vectors
+```
+
+
+For Y
+```{r}
+eigenY <- eigen(Y)
+```
+
+The Eigenvalues of Y are: $\lambda_1 =$ `r eigenY$values[1]` and $\lambda_2 =$ `r eigenY$values[2]`  $\lambda_3 =$ `r round(eigenY$values[3], 2)`
+
+The vectors are given by: 
+```{r echo=F}
+eigenY$vectors
+```
+
+The formula for SVD is:
+
+$$ X = UDV$$
+```{r}
+svdA <- svd(A, nu = dim(A)[1], nv = dim(A)[2]) 
+svdA
+```
+
+```{r}
+all.equal(eigenX$vectors, svdA$u)
+```
+
+```{r}
+all.equal(sqrt(eigenX$values[1]), svdA$d[1])
+all.equal(sqrt(eigenX$values[2]), svdA$d[2])
+```
+We see that the square root of eigenvalues of X are equal the singular values of A. 
+
+```{r}
+identical(eigenX$vectors, svdA$u)
+eigenX$vectors
+svdA$u
+```
+
+While the two matrixies are not identical, the vector v1 is simply multiplied by -1. Since this does not change the igenvalues we see that this still holds true. 
+
+```{r}
+all.equal(abs(eigenY$vectors), abs(svdA$v))
+```
+
+We also see that the absolute values of the eigenvectors of Y are equal to the absolute values of the right singular values of A. 
+```{r}
+i
+```
+
+# Problem Set 2
+Using the procedure outlined in section 1 of the weekly handout, write a function to
+compute the inverse of a well-conditioned full-rank square matrix using co-factors. In order
+to compute the co-factors, you may use built-in commands to compute the determinant.
+Your function should have the following signature:
+$$B = myinverse(A)$$
+
+where A is a matrix and B is its inverse and AB = I. The o-diagonal elements of I
+should be close to zero, if not zero. Likewise, the diagonal elements should be close to 1, if
+not 1. Small numerical precision errors are acceptable but the function myinverse should
+be correct and must use co-factors and determinant of A to compute the inverse.
+
+```{r}
+myinverse <- function(A) {
+  detA <- det(A)
+  C <- matrix(0L, nrow = nrow(A), ncol = ncol(A))
+  if (nrow(A) / ncol(A) != 1){
+    stop('The matrix is not square. Please provide a square matrix.')
+  }
+  if (det(A) == 0) {
+    stop('The Matrix is not invertable')
+  }
+  for (i in 1:nrow(A)){
+    for (j in 1:ncol(A)){
+      if (ncol(A) == 2){
+        C[i,j] = A[-i, -j] * (-1)^(i+j)
+      }
+      else {
+         C[i,j] = det(A[-i, -j]) * (-1)^(i+j)
+      }
+    }
+  }
+  invA = 1/det(A) * t(C)
+  return(invA)
+}
+```
+
+
+```{r}
+M2 <- matrix(floor(runif(4, 1,11)) , 2)
+M3 <- matrix(floor(runif(9, 1,11)) , 3)
+M4 <- matrix(floor(runif(16, 1,11)) , 4)
+M10 <- matrix(floor(runif(100, 1,11)) , 10)
+
+Mlist <- list(M2, M3, M4, M10)
+
+for (i in Mlist){
+  #print(paste('For matrix ', i, ':', sep = ""))
+  print(myinverse(i))
+  #print(round(myinverse(i) %*% i, 5))
+  
+}
+```
+
