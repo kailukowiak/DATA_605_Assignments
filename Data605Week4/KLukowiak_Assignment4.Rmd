@@ -69,6 +69,7 @@ svdA
 ```{r}
 all.equal(eigenX$vectors, svdA$u)
 ```
+Given that the differences in the matricies is caused by one vector being negative we can say that they are the same because a scalar multiplication will not change the value of the eigenvectors.
 
 ```{r}
 all.equal(sqrt(eigenX$values[1]), svdA$d[1])
@@ -139,4 +140,8 @@ Mlist <- list(M2, M3, M4, M10)
 lapply(Mlist, function(x) myinverse(x))
 ```
 
+
+```{r}
+lapply(Mlist, function(x) round(myinverse(x) %*% x, 5))
+```
 
