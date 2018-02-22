@@ -159,6 +159,119 @@ X</code></pre>
 ## [1,] -0.01856629 -0.6727903  0.7396003
 ## [2,]  0.25499937 -0.7184510 -0.6471502
 ## [3,]  0.96676296  0.1765824  0.1849001</code></pre>
+<p>The formula for SVD is:</p>
+<p><span class="math display">\[ X = UDV\]</span></p>
+<pre class="r"><code>svdA &lt;- svd(A, nu = dim(A)[1], nv = dim(A)[2]) 
+svdA</code></pre>
+<pre><code>## $d
+## [1] 5.157693 2.097188
+## 
+## $u
+##            [,1]       [,2]
+## [1,] -0.6576043 -0.7533635
+## [2,] -0.7533635  0.6576043
+## 
+## $v
+##             [,1]       [,2]       [,3]
+## [1,]  0.01856629 -0.6727903 -0.7396003
+## [2,] -0.25499937 -0.7184510  0.6471502
+## [3,] -0.96676296  0.1765824 -0.1849001</code></pre>
+<pre class="r"><code>all.equal(eigenX$vectors, svdA$u)</code></pre>
+<pre><code>## [1] &quot;Mean relative difference: 2&quot;</code></pre>
+<pre class="r"><code>all.equal(sqrt(eigenX$values[1]), svdA$d[1])</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>all.equal(sqrt(eigenX$values[2]), svdA$d[2])</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>We see that the square root of eigenvalues of X are equal the singular values of A.</p>
+<pre class="r"><code>identical(eigenX$vectors, svdA$u)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>eigenX$vectors</code></pre>
+<pre><code>##           [,1]       [,2]
+## [1,] 0.6576043 -0.7533635
+## [2,] 0.7533635  0.6576043</code></pre>
+<pre class="r"><code>svdA$u</code></pre>
+<pre><code>##            [,1]       [,2]
+## [1,] -0.6576043 -0.7533635
+## [2,] -0.7533635  0.6576043</code></pre>
+<p>While the two matrixies are not identical, the vector v1 is simply multiplied by -1. Since this does not change the igenvalues we see that this still holds true.</p>
+<pre class="r"><code>all.equal(abs(eigenY$vectors), abs(svdA$v))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>We also see that the absolute values of the eigenvectors of Y are equal to the absolute values of the right singular values of A.</p>
+<div id="problem-set-2" class="section level1">
+<h1>Problem Set 2</h1>
+<p>Using the procedure outlined in section 1 of the weekly handout, write a function to compute the inverse of a well-conditioned full-rank square matrix using co-factors. In order to compute the co-factors, you may use built-in commands to compute the determinant. Your function should have the following signature: <span class="math display">\[B = myinverse(A)\]</span></p>
+<p>where A is a matrix and B is its inverse and AB = I. The o-diagonal elements of I should be close to zero, if not zero. Likewise, the diagonal elements should be close to 1, if not 1. Small numerical precision errors are acceptable but the function myinverse should be correct and must use co-factors and determinant of A to compute the inverse.</p>
+<pre class="r"><code>myinverse &lt;- function(A) {
+  detA &lt;- det(A)
+  C &lt;- matrix(0L, nrow = nrow(A), ncol = ncol(A))
+  if (nrow(A) / ncol(A) != 1){
+    stop('The matrix is not square. Please provide a square matrix.')
+  }
+  if (det(A) == 0) {
+    stop('The Matrix is not invertable')
+  }
+  for (i in 1:nrow(A)){
+    for (j in 1:ncol(A)){
+      if (ncol(A) == 2){
+        C[i,j] = A[-i, -j] * (-1)^(i+j)
+      }
+      else {
+         C[i,j] = det(A[-i, -j]) * (-1)^(i+j)
+      }
+    }
+  }
+  invA = 1/det(A) * t(C)
+  return(invA)
+}</code></pre>
+<pre class="r"><code>M2 &lt;- matrix(floor(runif(4, 1,11)) , 2)
+M3 &lt;- matrix(floor(runif(9, 1,11)) , 3)
+M4 &lt;- matrix(floor(runif(16, 1,11)) , 4)
+M10 &lt;- matrix(floor(runif(100, 1,11)) , 10)
+
+Mlist &lt;- list(M2, M3, M4, M10)
+lapply(Mlist, function(x) myinverse(x))</code></pre>
+<pre><code>## [[1]]
+##            [,1]        [,2]
+## [1,]  0.1904762 -0.02380952
+## [2,] -0.1428571  0.14285714
+## 
+## [[2]]
+##            [,1]       [,2]       [,3]
+## [1,]  0.4666667  0.2666667 -0.8666667
+## [2,]  0.2444444  0.3777778 -0.6444444
+## [3,] -0.6666667 -0.6666667  1.6666667
+## 
+## [[3]]
+##             [,1]        [,2]        [,3]       [,4]
+## [1,]  0.51612903 -0.12903226  0.04838710 -0.2580645
+## [2,]  0.07741935 -0.01935484 -0.06774194  0.1612903
+## [3,] -0.52258065  0.38064516 -0.16774194  0.1612903
+## [4,] -0.20000000 -0.20000000  0.30000000  0.0000000
+## 
+## [[4]]
+##               [,1]         [,2]        [,3]         [,4]         [,5]
+##  [1,]  0.263314038 -0.103955823 -0.14682171 -0.059329281 -0.137833104
+##  [2,]  0.086247170 -0.124431852 -0.03228499  0.028350431  0.028059092
+##  [3,]  0.430782194 -0.085396786 -0.17368703 -0.128876016 -0.223644043
+##  [4,] -0.172997317  0.016241515  0.02961048  0.007751306  0.084439837
+##  [5,] -0.209386576  0.184039561  0.07898908 -0.013693077  0.169452358
+##  [6,] -0.345178999  0.133525846  0.19342315  0.023309008  0.178382015
+##  [7,]  0.533757458 -0.094402003 -0.32954485 -0.092902744 -0.337321229
+##  [8,] -0.002685691 -0.004448159 -0.02756640  0.070665705 -0.001490194
+##  [9,] -0.428189157  0.058712258  0.31236557  0.097424965  0.256191423
+## [10,] -0.088553057 -0.029192905  0.07572008  0.107608304 -0.038953930
+##              [,6]         [,7]        [,8]        [,9]       [,10]
+##  [1,] -0.03341375 -0.065463948 -0.16009493  0.20877351  0.32665149
+##  [2,] -0.03988010  0.066088898  0.11111536 -0.12897995 -0.01578006
+##  [3,] -0.02182559 -0.234331579 -0.30058575  0.44388815  0.41474125
+##  [4,]  0.09703439 -0.007166587  0.01745644  0.02719064 -0.11077327
+##  [5,]  0.08817664  0.001198778 -0.09633790 -0.06659386 -0.15928726
+##  [6,]  0.12155796  0.246825535  0.23224968 -0.37658512 -0.47615784
+##  [7,] -0.09570689 -0.307354684 -0.17046183  0.43328958  0.52783014
+##  [8,] -0.10376607 -0.027153431 -0.01655961  0.07606526  0.07406800
+##  [9,] -0.02679499  0.292168291  0.35263176 -0.50846297 -0.44240106
+## [10,]  0.04668651  0.038154931  0.04533993 -0.05719499 -0.07692762</code></pre>
+</div>
 
 
 

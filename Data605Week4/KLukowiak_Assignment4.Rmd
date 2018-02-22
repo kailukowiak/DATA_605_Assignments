@@ -89,9 +89,7 @@ all.equal(abs(eigenY$vectors), abs(svdA$v))
 ```
 
 We also see that the absolute values of the eigenvectors of Y are equal to the absolute values of the right singular values of A. 
-```{r}
-i
-```
+
 
 # Problem Set 2
 Using the procedure outlined in section 1 of the weekly handout, write a function to
@@ -138,12 +136,7 @@ M4 <- matrix(floor(runif(16, 1,11)) , 4)
 M10 <- matrix(floor(runif(100, 1,11)) , 10)
 
 Mlist <- list(M2, M3, M4, M10)
-
-for (i in Mlist){
-  #print(paste('For matrix ', i, ':', sep = ""))
-  print(myinverse(i))
-  #print(round(myinverse(i) %*% i, 5))
-  
-}
+lapply(Mlist, function(x) myinverse(x))
 ```
+
 
