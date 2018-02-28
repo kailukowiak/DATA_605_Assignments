@@ -1,0 +1,55 @@
+---
+title: "Week 5"
+author: "Kai Lukowiak"
+date: "February 28, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Write a program to calculate a random walk in one dimension. 
+
+```{r}
+RW <- function(n){
+  walk <- cumsum(sample(c(-1,1), n, TRUE))
+  zero <- 0
+  ans <- c()
+  for (i in walk){
+    if (i == 0){
+      ans <- c(ans, zero) 
+      zero <- 0
+    } else{
+      zero <- zero +1
+    }
+  }
+  print(ans)
+}
+RW(30)
+```
+
+```{r}
+set.seed(101)
+zero <- 0
+ans <- c()
+walk <- cumsum(sample(c(-1,1), 100, TRUE))
+for (i in walk){
+  if (i == 0){
+    ans <- c(ans, zero)
+    zero <- 0
+  } else{
+    zero <- zero + 1
+  }
+}
+ans
+```
+
+
+```{r}
+for (i in walk){
+  print(i)
+}
+```
+
