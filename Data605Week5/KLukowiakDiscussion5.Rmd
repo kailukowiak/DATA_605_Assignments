@@ -25,31 +25,81 @@ RW <- function(n){
       zero <- zero +1
     }
   }
-  print(ans)
+  num <- length(ans)
+  return(list(ans, num))
 }
-RW(30)
+RW(100)
 ```
 
+The Walker will always return to his starting place given a that the movement set contains a positive and negative number (e.g., $(-1,1)$ and that the probability of movement in any direction $(P)$ is not asympopically 1 or 0.
+
+## b)
+Write a program to simulate a random walk of two people meeting in 2D. This can be simplified to one walker returning to (0,0).
+
+
+
+http://www.ggplot2-exts.org/gganimate.html
+
 ```{r}
-set.seed(101)
-zero <- 0
-ans <- c()
-walk <- cumsum(sample(c(-1,1), 100, TRUE))
-for (i in walk){
-  if (i == 0){
-    ans <- c(ans, zero)
-    zero <- 0
-  } else{
-    zero <- zero + 1
+#devtools::install_github("dgrtwo/gganimate")
+library(ggplot2)
+library(gganimate)
+```
+
+
+
+```{r}
+RW2d <- function(n){
+  walkM <- matrix(0, ncol = 2, nrow = n)
+  for (i in 2:n){
+    dimension <- sample(c(1, 2), 1, TRUE)
+    direction <- sample(c(-1, 1), 1, TRUE)
+    walkM[i, dimension] <- direction + walkM[i-1, dimension]
+    walkM[i, -dimension] = walkM[i-1, -dimension]
+  }
+  zero <- 0
+  ans <- c()
+  for (i in 1:n){
+    if (walkM[i, 1] == 0 & walkM[i, 2] == 0){
+      ans <- c(ans, zero) 
+      zero <- 0
+    } else{
+      zero <- zero + 1
+    }
+  return(walkM)
   }
 }
-ans
+x <- RW2d(100)
+
+countGaps <- function(x){
+  ans <- c()
+zero <- 0
+for (i in 1:nrow(x)){
+  if (x[i, 1] == 0 & x[i,2] == 0){
+    ans <- c(ans, zero) 
+    zero <- 0
+    } else{
+      zero <- zero + 1
+    }}
+return(list(ans, length(ans)))
+}
+countGaps(x)
 ```
 
 
-```{r}
-for (i in walk){
-  print(i)
-}
+https://community.rstudio.com/t/tweenr-gganimate-with-line-plot/4027/5
+
+
+```{r interval=0.01, aniopts="controls", fig.show = "animate"}
+library(tidyverse)
+df <- data.frame(x)
+dat_ani <- map(seq(nrow(df)), ~df[c(seq(.x), rep(.x, nrow(df) - .x)), ]) %>% 
+    tweenr::tween_states(5, 2, 'cubic-in-out', 10) %>% 
+    ggplot(aes(X1, X2, frame = .frame)) + 
+    geom_path() + 
+    geom_point()
+
+animation::ani.options(interval = 0.000000001)    # speed it up
+gganimate::gganimate(dat_ani, title_frame = FALSE)
 ```
 
