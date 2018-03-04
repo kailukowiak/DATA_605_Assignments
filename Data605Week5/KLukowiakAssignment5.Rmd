@@ -14,91 +14,80 @@ Choose independently two numbers B and C at random from the interval [0, 1] with
 
 
 ```{r warning=FALSE, message=FALSE}
-set.seed(101)
-A <- runif(10000, 0, 1)
-B <- runif(10000, 0, 1)
-df <- data.frame(A = A, B = B)
 library(tidyverse)
+library(ggthemes)
+set.seed(101)
+B <- runif(10000, 0, 1)
+C <- runif(10000, 0, 1)
 
+sumVec <- B + C
+productVec <- B * C
+absVec <- abs(B - C)
+maxVec <- pmax(B, C)
+minVec <- pmin(B, C)
 
+df <- data.frame(cbind(B, C))
 ggplot(df) + 
-  geom_histogram(aes(x = df$A), fill = 'red', alpha = .5)+
-  geom_histogram(aes(df$B), fill = 'blue', alpha = .5) +
-  ggtitle('Uniform Density Distrubution')
-
+  geom_histogram(aes(x = df$B), fill = 'grey', alpha = .5, color = 'black')+
+  geom_histogram(aes(df$C), fill = 'light blue', alpha = .5, color = 'black') +
+  ggtitle('Uniform Density Distrubution') + theme_tufte()
 ```
 
 # a)
 $B + C < 1/2$
-
-```{r }
-stat1 <- df %>% 
-  mutate(sumAB = A + B) %>% 
-  filter(sumAB < .5) %>% 
-  select(sumAB) %>% 
-  summarise(ans <- n()/nrow(df))
-statP <- stat1$`ans <- n()/nrow(df)`
-
+Since B + C is a straight line, the function to integrate over is simply $x$.
+```{r}
+IntagreteBootStrap <- function(vec, integrand){
+  ans1 = integrate(integrand, lower = 0, upper = 1/2)$value
+  ans2 = ecdf(vec)(.5)
+  print(paste('The answer found from integratin is:', ans1, 'The answer found from boot strap is:', ans2))
+}
+integrand = function(x){x}
+IntagreteBootStrap(sumVec, integrand)
 ```
-
-The chance of the sum of  any two entries (A, B) being less than one half is `r statP * 100`%
 
 
 # b)
 $BC < 1/2$
+$B\cdot C$ 
 
 
 ```{r}
-stat1 <- df %>% 
-  mutate(sumAB = A * B) %>% 
-  filter(sumAB < .5) %>% 
-  select(sumAB) %>% 
-  summarise(ans <- n()/nrow(df))
-statP <- round(stat1$`ans <- n()/nrow(df)`,2)
-
+integrand = function(x){-log(x)}
+IntagreteBootStrap(productVec, integrand)
 ```
-
-The chance of the product of any two entries of (A, B) being less than one half is `r statP * 100`%
-
 
 
 # c)
 
 $|B − C| < 1/2$
 
+
 ```{r}
-stat1 <- df %>% 
-  mutate(sumAB = abs(A - B)) %>% 
-  filter(sumAB < .5) %>% 
-  select(sumAB) %>% 
-  summarise(ans <- n()/nrow(df))
-statP <- round(stat1$`ans <- n()/nrow(df)`,2)
+integrand = function(x){2 * (1 - x)} # multiply by 2 because of the positive and neg options.
+IntagreteBootStrap(absVec, integrand)
 ```
 
-The chance of the subtraction of any two entries of (A, B) being less than one half is `r statP * 100`%
 
 # d)
-$max{B,C} < 1/2$
+$max(B,C) < 1/2$
 
+Instead of integrating, we can use more elementary probability theory to solve this. The probability of  $max(B,C) < 1/2$ is given by:
+
+$$ P(B) < 1/2 \cap P(C) < 1/2$$
+Since $E(B,C) = \frac{1}{2}, \frac{1}{2}$ The solution is $\Big ( \frac{1}{2} \Big ) ^2 = \frac{1}{4}$ 
 ```{r}
-stat1 <- df %>% 
-  mutate(sumAB = max(A, B)) %>% 
-  filter(sumAB < .5) %>% 
-  select(sumAB) %>% 
-  summarise(ans <- n()/nrow(df))
-statP <- round(stat1$`ans <- n()/nrow(df)`,2)
+length(maxVec[maxVec<.5]) / length(maxVec)
 ```
 
-The chance of the max value of any two entries of (A, B) being less than one half is `r statP * 100`%
+
 
 # e)
+$min(B,C) < 1/2$
+
+Since $E(B,C) = \frac{1}{2}, \frac{1}{2}$ The solution is $1 - \Big ( \frac{1}{2} \Big ) ^2 = \frac{3}{4}$
+
 ```{r}
-stat1 <- df %>% 
-  mutate(sumAB = min(A, B)) #%>% 
-  #filter(sumAB < .5) %>% 
-  #select(sumAB) %>% 
-  #summarise(ans <- n()/nrow(df))
-#statP <- round(stat1$`ans <- n()/nrow(df)`,2)
+length(minVec[minVec<.5]) / length(minVec)
 ```
 
-The chance of the min value of any two entries of (A, B) being less than one half is `r statP * 100`%
