@@ -94,11 +94,11 @@ The chance of the max value of any two entries of (A, B) being less than one hal
 # e)
 ```{r}
 stat1 <- df %>% 
-  mutate(sumAB = min(A, B)) %>% 
-  filter(sumAB < .5) %>% 
-  select(sumAB) %>% 
-  summarise(ans <- n()/nrow(df))
-statP <- round(stat1$`ans <- n()/nrow(df)`,2)
+  mutate(sumAB = min(A, B)) #%>% 
+  #filter(sumAB < .5) %>% 
+  #select(sumAB) %>% 
+  #summarise(ans <- n()/nrow(df))
+#statP <- round(stat1$`ans <- n()/nrow(df)`,2)
 ```
 
 The chance of the min value of any two entries of (A, B) being less than one half is `r statP * 100`%
