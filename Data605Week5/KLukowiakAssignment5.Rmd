@@ -1,0 +1,104 @@
+---
+title: "Assignment 5"
+author: "Kai Lukowiak"
+date: '2018-03-03'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Choose independently two numbers B and C at random from the interval [0, 1] with uniform density. Prove that B and C are proper probability distributions. Note that the point (B,C) is then chosen at random in the unit square. Find the probability that
+
+
+```{r warning=FALSE, message=FALSE}
+set.seed(101)
+A <- runif(10000, 0, 1)
+B <- runif(10000, 0, 1)
+df <- data.frame(A = A, B = B)
+library(tidyverse)
+
+
+ggplot(df) + 
+  geom_histogram(aes(x = df$A), fill = 'red', alpha = .5)+
+  geom_histogram(aes(df$B), fill = 'blue', alpha = .5) +
+  ggtitle('Uniform Density Distrubution')
+
+```
+
+# a)
+$B + C < 1/2$
+
+```{r }
+stat1 <- df %>% 
+  mutate(sumAB = A + B) %>% 
+  filter(sumAB < .5) %>% 
+  select(sumAB) %>% 
+  summarise(ans <- n()/nrow(df))
+statP <- stat1$`ans <- n()/nrow(df)`
+
+```
+
+The chance of the sum of  any two entries (A, B) being less than one half is `r statP * 100`%
+
+
+# b)
+$BC < 1/2$
+
+
+```{r}
+stat1 <- df %>% 
+  mutate(sumAB = A * B) %>% 
+  filter(sumAB < .5) %>% 
+  select(sumAB) %>% 
+  summarise(ans <- n()/nrow(df))
+statP <- round(stat1$`ans <- n()/nrow(df)`,2)
+
+```
+
+The chance of the product of any two entries of (A, B) being less than one half is `r statP * 100`%
+
+
+
+# c)
+
+$|B − C| < 1/2$
+
+```{r}
+stat1 <- df %>% 
+  mutate(sumAB = abs(A - B)) %>% 
+  filter(sumAB < .5) %>% 
+  select(sumAB) %>% 
+  summarise(ans <- n()/nrow(df))
+statP <- round(stat1$`ans <- n()/nrow(df)`,2)
+```
+
+The chance of the subtraction of any two entries of (A, B) being less than one half is `r statP * 100`%
+
+# d)
+$max{B,C} < 1/2$
+
+```{r}
+stat1 <- df %>% 
+  mutate(sumAB = max(A, B)) %>% 
+  filter(sumAB < .5) %>% 
+  select(sumAB) %>% 
+  summarise(ans <- n()/nrow(df))
+statP <- round(stat1$`ans <- n()/nrow(df)`,2)
+```
+
+The chance of the max value of any two entries of (A, B) being less than one half is `r statP * 100`%
+
+# e)
+```{r}
+stat1 <- df %>% 
+  mutate(sumAB = min(A, B)) %>% 
+  filter(sumAB < .5) %>% 
+  select(sumAB) %>% 
+  summarise(ans <- n()/nrow(df))
+statP <- round(stat1$`ans <- n()/nrow(df)`,2)
+```
+
+The chance of the min value of any two entries of (A, B) being less than one half is `r statP * 100`%
