@@ -1,0 +1,210 @@
+---
+title: "KlukowiakAssignment6"
+author: "Kai Lukowiak"
+date: '2018-03-07'
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1 Marbles
+A box contains 54 red marbles, 9 white marbles, and 75 blue marbles. If a marble is randomly selected from the box, what is the probability that it is red or blue? Express your answer as a fraction or a decimal number rounded to four decimal places.
+
+```{r}
+r <- 54
+w <- 9
+b <- 75
+
+ans <- (r + b) / (r + w + b)
+print(paste('The chance of picking red or blue is:' ,round(ans, 4)))
+```
+
+# 2 Mini Golf
+You are going to play mini golf. A ball machine that contains 19 green golf balls, 20 red golf balls, 24 blue golf balls, and 17 yellow golf balls, randomly gives you your ball. What is the probability that you end up with a red golf ball? Express your answer as a simplified fraction or a decimal rounded to four decimal places.
+
+```{r}
+g <- 19
+r <- 20
+b <- 24
+y <- 17
+ans <- r / (g + r + b + y)
+print(paste('The chance of getting a red ball is:', round(ans, 4)))
+```
+
+# 3 Pizza
+A pizza delivery company classifies its customers by gender and location of residence. The research department has gathered data from a random sample of 1399 customers. The data is summarized in the table below.
+
+```{r}
+library(magrittr)
+library(knitr)
+df <- data.frame(male = c(81, 116, 215, 130, 129), females = c(228, 79, 252, 97, 72))
+rownames(df) <- c('appartment', 'dorm', 'with_parents', 'sorority_fraternity', 'other')
+df %>% kable()
+```
+
+We can find the probability that a person is male and living with their parents:
+```{r}
+maleParents <- df["with_parents", "male"] 
+Total <- colSums(df) %>% sum()
+pInv <- maleParents / Total
+print(paste('There is a :', round(1-pInv, 4), 'chance this this occuring'))
+```
+
+# 4 Gym and Weightloss
+Determine if the following events are independent: A) Going to the gym. B) Losing weight.
+
+Independent because "You cant outrun your fork", also body builders gain wait instead of losing. Further, the act of going to the gym does not mean you actually work out.
+
+#5 City Subs
+
+A veggie wrap at City Subs is composed of 3 different vegetables and 3 different condiments wrapped up in a tortilla. If there are 8 vegetables, 7 condiments, and 3 types of tortilla available, how many different veggie wraps can be made?
+
+```{r}
+numWraps <- choose(8, 3) * choose(7, 3) * choose(3, 1)
+```
+
+There are `r numWraps` different wraps that can be made
+
+# 6 Running out of Gas
+Determine if the following events are independent.
+Jeff runs out of gas on the way to work. Liz watches the evening news.
+
+They are pendant because one does not effect the other, that is unless Jeff gets fired, goes to the bar in despair and fails to come home to Liz, who worried, watches the news for any sign of Jeff.
+
+# 7 Cabnet Positions
+
+The newly elected president needs to decide the remaining 8 spots available in the cabinet he/she is appointing. If there are 14 eligible candidates for these positions (where rank matters), how many different ways can the members of the cabinet be appointed?
+
+You mean indited?
+
+```{r}
+factorial(14) / factorial(14 - 8)
+```
+
+# 8 Jellybeans
+A bag contains 9 red, 4 orange, and 9 green jellybeans. What is the probability of reaching into the bag and randomly withdrawing 4 jellybeans such that the number of red ones is 0, the number of orange ones is 1, and the number of green ones is 3? Write your answer as a fraction or a decimal number rounded to four decimal places.
+
+```{r}
+rbg <- choose(9,0) * choose(4,1) * choose(9, 3)
+all <- choose(9 + 4 + 9, 4)
+rbg/all
+```
+
+# 9 Factorials
+Evaluate the following expression $\frac{11!}{7!}$
+```{r}
+factorial(11) / factorial(7)
+```
+
+# 10 Complements
+Describe the complement of the given event. 67% of subscribers to a fitness magazine are over the age of 34.
+
+Compliment: `r 100 - 67`% are younger than 34
+
+# 11 Betting with coins 1
+If you throw exactly three heads in four tosses of a coin you win $97. If not, you pay me $30.
+Step 1. Find the expected value of the proposition. Round your answer to two decimal places. Step 2. If you played this game 559 times how much would you expect to win or lose? (Losses must be entered as negative.)
+
+
+```{r}
+p <- (factorial(4)) / (factorial(4 - 3) * factorial(3) * 4^2)
+print(paste('The chance of getting exactly three heads is:', p))
+
+payout <- p * 97 * 559 - (1 - p) * 30 * 559
+print(paste("The expected payout is:", payout))
+```
+
+This can also be seen by looking at the $E(win)$ compared to the $E(loss)$ or the ratio of the chance of winning to the payoff.
+
+$$
+E(win) = 0.25 * 97 = 24.25
+\\
+E(loss) = 0.75 * 30 = 22.5
+\\
+\therefore E(win) > E(loss)
+$$
+
+
+# 12 Betting with Coins 2
+Flip a coin 9 times. If you get 4 tails or less, I will pay you $23. Otherwise you pay me $26. 
+Step 1. Find the expected value of the proposition. Round your answer to two decimal places. 
+Step 2. If you played this game 994 times how much would you expect to win or lose? (Losses must be entered as negative.)
+
+```{r}
+p <- pbinom(q = 4, size = 9, prob = 0.5)
+print(paste('The probability of getting 4 heads or less is:', p))
+
+payout <- p * 994 * 23 - p * 994 *26
+print(paste("Over 994 games I would expect to lose:", payout))
+```
+
+
+
+# 13 Polygraph
+The sensitivity and specificity of the polygraph has been a subject of study and debate for years. A 2001 study of the use of polygraph for screening purposes suggested that the probability of detecting a liar was .59 (sensitivity) and that the probability of detecting a "truth teller" was .90 (specificity). We estimate that about 20% of individuals selected for the screening polygraph will lie.
+
+```{r}
+liar <- 0.2
+truth <- 1 - liar
+detectL <- 0.59
+detectT <- 0.9
+
+
+Conditions <- c('Positive', 'Negative', 'Total')
+Lie <- c(0,0,0)
+Truth <- c(0,0,0)
+Totals <- c(0,0,0)
+df <- data.frame(Lie, Truth, Totals, row.names = Conditions)
+df["Positive", "Lie"] <- liar * detectL
+df["Negative", "Lie"] <- liar * (1 - detectL)
+df["Total", "Lie"] <- sum(df[,1])
+
+df["Positive", "Truth"] <- (truth) * (1 - detectT)
+df["Negative", "Truth"] <- (truth) * detectT
+df["Total", "Truth"] <- sum(df[,2])
+
+df[ , 3] <- rowSums(df[, 1:2])
+
+df %>% kable()
+```
+
+## a. 
+What is the probability that an individual is actually a liar given that the polygraph detected him/her as such? (Show me the table or the formulaic solution or both.)
+
+
+```{r}
+ans <- df["Positive", "Lie"] / df["Positive", "Totals"]
+print(paste("The chance that the individual is actually a lier but telling the truth is:",
+            round(ans, 4)))
+```
+
+
+## b. 
+What is the probability that an individual is actually a truth-teller given that the polygraph detected him/her as such? (Show me the table or the formulaic solution or both.)
+
+```{r}
+ans <- df["Negative", "Truth"] / df["Negative", "Totals"]
+print(paste("The chance that the individual is actually a lier but telling the truth is:",
+            round(ans, 4)))
+
+
+```
+
+
+
+## c. 
+What is the probability that a randomly selected individual is either a liar or was identified as a liar by the polygraph? Be sure to write the probability statement.
+
+```{r}
+ans <- df["Total", "Lie"] + df["Positive", "Totals"] - df["Positive", "Lie"]
+print(paste("The chance that the individual is actually a lier or classified as one is:",
+            round(ans, 4)))
+```
+
