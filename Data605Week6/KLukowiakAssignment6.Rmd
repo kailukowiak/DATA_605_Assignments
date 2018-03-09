@@ -108,6 +108,7 @@ Describe the complement of the given event. 67% of subscribers to a fitness maga
 
 Compliment: `r 100 - 67`% are younger than 34
 
+<<<<<<< Updated upstream:Data605Week6/KLukowiakAssignment6.Rmd
 # 11 Betting with coins 1
 If you throw exactly three heads in four tosses of a coin you win $97. If not, you pay me $30.
 Step 1. Find the expected value of the proposition. Round your answer to two decimal places. Step 2. If you played this game 559 times how much would you expect to win or lose? (Losses must be entered as negative.)
@@ -206,5 +207,15 @@ What is the probability that a randomly selected individual is either a liar or 
 ans <- df["Total", "Lie"] + df["Positive", "Totals"] - df["Positive", "Lie"]
 print(paste("The chance that the individual is actually a lier or classified as one is:",
             round(ans, 4)))
+=======
+# 11
+If you throw exactly three heads in four tosses of a coin you win $97. If not, you pay me $30.
+Step 1. Find the expected value of the proposition. Round your answer to two decimal places.
+Step 2. If you played this game 559 times how much would you expect to win or lose? (Losses must be entered as
+negative.)
+
+```{r}
+
+>>>>>>> Stashed changes:Data605Week6/KLukowiakAssignment4.Rmd
 ```
 
