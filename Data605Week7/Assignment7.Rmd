@@ -1,0 +1,84 @@
+---
+title: "Assignment 7"
+author: "Kai Lukowiak"
+date: '2018-03-14'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Problem 1
+Let $X_1, X_2,...,X_n$ be $n$ mutually independent random variables, each of which is uniformly distributed on the integers from $1$ to $k$. Let $Y$ denote the minimum of the $X_i$'s. Find the distribution of $Y$. 
+
+## Solution 1:
+Let $\alpha$ be minimum value of $X_i$. The probability of $\alpha$ for any number is given by the total number of possibilities $k^n$ minus the number of possibilities that a number greater than or less than $\alpha$.
+
+More generally: 
+
+* Let the total number of posibilities be: $k^n$
+
+* Let the number greater than $\alpha$ be: $(k - \alpha + 1)^n$
+
+* Let the number of less than $\alpha$ be: $(k - \alpha)$
+
+Therefore:
+$$
+P(\alpha) = \frac{(k - \alpha + 1) (k-\alpha)}{k^n}
+$$
+
+To simulate this:
+
+```{r}
+minDist <- function(k,n) {
+  Y = c()
+  for (i in 1:n){
+    X <- sample.int(n, k, replace = TRUE)
+    Y[i] = min(X)
+  }
+  return(Y)
+}
+
+Var <- minDist(20, 100)
+library(ggplot2)
+qplot(Var, geom = 'histogram', bins = 100)
+```
+
+
+
+
+# Problem 2
+Your organization owns a copier (future lawyers, etc.) or MRI (future doctors). This machine has a manufacturer’s expected lifetime of 10 years. This means that we expect one failure every ten years. (Include the probability statements and R Code for each part.).
+
+## a)
+What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as a geometric. (Hint: the probability is equivalent to not failing during the first 8 years..)
+
+We use the `pgeom` function in R to calculate the proability that it will fail after 8 years given the 0.1 failure rate:
+
+```{r}
+pgeom(7, 0.1, lower.tail = FALSE)
+```
+
+## b)
+What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as an exponential.
+
+```{r}
+pexp(8, 0.1, lower.tail = FALSE)
+```
+
+
+## c)
+What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as a binomial. (Hint: 0 success in 8 years)
+
+```{r}
+pbinom(0, 8, 0.1)
+```
+
+## d)
+What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as a Poisson.
+
+```{r}
+ppois(0, 8/10)
+```
+
