@@ -1,0 +1,102 @@
+---
+title: "Assignment 8"
+author: "Kai Lukowiak"
+date: '2018-03-20'
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Question 11
+**pg. 303**
+
+> A company buys 100 lightbulbs, each of which has an exponential lifetime of 1000 hours. What is the expected time for the first of these bulbs to burn out? (See Exercise 10.)
+
+**Exercise 10:**
+
+> Let $X_1, X2, \dots , X_n$ be n independent random variables each of which has an exponential density with mean $\mu$. Let $M$ be the minimum value of the $X_j$ . Show that the density for $M$ is exponential with mean $\frac{\mu}{n}$. Hint: Use cumulative distribution functions.
+
+The mean for the minimum expected value is given by:
+$$ 
+E[M] = \frac{1000}{10} = 100
+$$
+
+So we can expect the first bulb to burn out after 100h.
+
+# Question 14
+
+Assume that $X_1 \ and \  X_2$ are independent random variables, each having an exponential density with parameter $\lambda$. Show that $Z = X_1 − X_2$ has density:
+
+
+$$
+f_Z(z) = \frac{1}{2}\lambda e^{-\lambda |z|}
+$$
+
+Since $X_1 \ and \ X_2 \in \ [0, \infty)$ and $Z \ \in \ (-\infty, \infty)$
+
+The densities of $X_1 \ and \ X_2$ are:$\lambda e^{-\lambda x_i}$ for $i = 1, 2$
+
+$X_1 = Z + X_2$
+
+$$
+\int_{-\infty}^{\infty} \lambda e^{-\lambda (z + x_2)} \cdot \lambda e^{-\lambda x_2} dx_2 
+\\
+\lambda^2 e^{-\lambda z}\int_{-\infty}^{\infty} e^{-2\lambda x_2} dx_2
+\\
+\lambda^2 e^{- \lambda z} \large(\frac{\pm 1}{2\lambda })
+\\
+\frac{\pm \lambda}{2}e^{- \lambda z}
+$$
+
+# Question 1
+**pg. 320**
+1 Let X be a continuous random variable with mean $\mu = 10$ and variance $\sigma ^2 = 100/3$. Using Chebyshev’s Inequality, find an upper bound for the following probabilities.
+
+Chebyshev’s Inequality: 
+$$
+P(|X − 10| \geq \epsilon) \leq \frac{\sigma ^2}{\epsilon}
+$$
+
+### a) $P(|X − 10| \geq 2)$
+
+$$
+P(|X − 10| \geq 2) \leq \frac{100/3}{2^2}
+$$
+
+### b) $P(|X − 10| \geq 5)$
+
+$$
+P(|X − 10| \geq 5) \leq \frac{100/3}{5^2}
+$$
+
+### c) $P(|X − 10| \geq 9)$
+
+$$
+P(|X − 10| \geq 9) \leq \frac{100/3}{9^2}
+$$
+
+### d) $P(|X − 10| \geq 20)$
+
+
+$$
+P(|X − 10| \geq 20) \leq \frac{100/3}{20^2}
+$$
+
+
+The results respectivley are: 
+```{r warning= FALSE}
+library(MASS)
+numbs <- c(2, 5, 9, 20)
+for (i in numbs){
+  x = (100 / 3)/ i ^2
+  print(fractions(x))
+}
+```
+
