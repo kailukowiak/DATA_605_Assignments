@@ -1,0 +1,179 @@
+---
+title: "Assignment 9"
+author: "Kai Lukowiak"
+date: '2018-03-30'
+output:
+  html_document:
+    toc: true
+    toc_float:
+      smooth_scroll: true
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# Question 11 pg. 363
+
+The price of one share of stock in the Pilsdorff Beer Company (see Exercise 8.2.12) is given by Yn on the nth day of the year. Finn observes that the differences $X_n = Y_{n+1} − Y_n$ appear to be independent random variables with a common distribution having mean $\mu = 0$ and variance $\sigma^2 = 1/4$. If $Y_1 = 100$, estimate the probability that $Y_{365}$ is:
+
+$$
+
+Y_{n+1} = X_n − Y_n \\
+\therefore \\
+Y_{2} = X_1 − Y_1 \\
+\therefore \\
+Y_{365} = Y_1 + \sum_{i=1}^{364}X_i \\
+$$
+Becuase $\mu = 0 \implies E(Y_{365}) = 0$. Because $\sigma^2 = 1/4$ the variance for $Y_{365} = 365/4=91.25$
+
+$\sigma = \sqrt(91.25) = 9.552487$
+
+
+
+## a) 
+
+$Y_{365} \geq 100$
+
+## b)
+
+$Y_{365} \geq 110$
+
+## c)
+
+$Y_{365} \geq 120$
+
+
+```{r}
+mu = 0
+E = 100
+sd = sqrt(91.25)
+
+vars  = c(100, 110, 120)
+letter = c("a)", "b)", "c)")
+
+for (i in 1:3){
+  ans = pnorm(vars[i] - 100, mean = mu, sd = sd, lower.tail = FALSE)
+  print(paste('The answer to', letter[i], 'is', ans))
+}
+```
+
+
+# Calculate the expected value and variance of the binomial distribution using the moment generating function.
+
+https://onlinecourses.science.psu.edu/stat414/node/67 
+
+The function is given by:
+
+$$
+f(x) = (_{x}^{n})p^x(1-p)^{n-x}
+\\
+g(t)=\sum_{i=1}^n p^x(1-p)^{n-x}e^{tj}
+
+$$
+
+For $x = [0, 1]$ $x>0$
+
+To find the MFG:
+
+https://www.youtube.com/watch?v=XEm3lzquu5c
+
+$$
+M(t) = E(e^{xt}) 
+\\
+= \sum_{x=0}^n e^{xt}(_x ^n)p^x(1-p)^{n-x}
+\\
+= \sum_{x=0}^n (_x ^n) (e^tp)^x(1-p)^{n-x}
+$$
+
+Let $(e^tp)^x = y$ and $(1-p)^{n-x}=z$
+
+From the identity:
+
+$$
+\sum_{x=0}^n (_x ^n) y^xz^{n-x} = (y + z)^n
+\\
+= (e^tp+(1-p))^n
+$$
+
+Fo find the first momemnt, we need to take the first derivative.
+
+$$
+\mu = M'(0) = n(e^0p+(1-p))^{n-1}(pe^o)
+\\
+= np
+$$
+
+The Variance is given by the second dertiative WRT `t`:
+
+$$
+M''(0) = n^{n-1} p + pn(n-1)1^{n-2}p
+\\
+=np + n^2 p^2 - np^2
+\\
+\sigma^2 = M''(0) - M''(0)^2
+\\
+=np + (np)^2 - np^2 - (np)^2
+\\
+= np - np^2
+\\
+= np(1-p)
+$$
+
+# Calculate the expected value and variance of the exponential distribution using the moment generating function.
+
+https://www.youtube.com/watch?v=bEPTUrfknQ4
+
+The exponential distrobution is given by:
+
+
+$$
+f(x;\lambda) = 
+\begin{cases}
+    \lambda e^{-\lambda x},& \text{if } x\geq 0\\
+    0,              & \text{if } x < 0
+\end{cases}
+$$
+
+The MGF can be found by:
+
+$$
+M(t) = E(e^{tx}) =\int_0 ^\infty e^{tx} \lambda e^{-\lambda x} dx
+\\
+=\int_0 ^\infty \lambda e^{(t - \lambda) x} dx
+\\
+= \frac{\lambda}{t-\lambda} \Big[ e^{(t-\lambda)x }\Big]_0 ^\infty
+\\
+= \frac{\lambda}{t-\lambda} \lim_{r \to \infty} (e^{(t-\lambda )r} -1)
+\\
+\text{if} t-\lambda < 0 \implies  \frac{\lambda}{\lambda - t} 
+$$
+
+The expected value:
+
+$$
+ M(t) =  \frac{\lambda}{\lambda - t} 
+\\
+\mu = M'(t) = \lambda(\lambda - t)^{-2} (-1)
+\\
+\lambda(t- \lambda)^{-2} 
+\\
+\therefore \mu = M'(0) = \frac{1}{\lambda}
+$$
+
+The variance is equal to:
+
+$$
+\sigma^2 = M''(0) - M'(0)^2
+\\
+M''(t) = -2 \lambda(t- \lambda)^{-3} (-1) 
+\\
+= 2\lambda(t - \lambda)^{-3}
+\\ 
+M''(0)=2\lambda^{-2}
+\\
+\therefore \sigma^2 = 2\lambda^{-2} - (\lambda^{-1})^2
+\\
+\sigma^2 = \frac{1}{\lambda^2}
+$$
