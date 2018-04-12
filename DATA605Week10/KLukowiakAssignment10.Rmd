@@ -1,0 +1,77 @@
+---
+title: "Assignment 10"
+author: "Kai Lukowiak"
+date: '2018-04-04'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Smith is in jail and has 1 dollar; he can get out on bail if he has 8 dollars.
+A guard agrees to make a series of bets with him. If Smith bets A dollars,
+he wins A dollars with probability .4 and loses A dollars with probability .6.
+Find the probability that he wins 8 dollars before losing all of his money if
+
+# (a) he bets 1 dollar each time (timid strategy).
+
+This is a random walk problem with two absorbing states, 0 and 8. 
+
+From pg. 487 of *Introduction to Probability* by Charles M. Grinstead:
+
+$$
+q = 0.6
+\\
+p = 1-q = 0.4
+\\
+s = 1
+\\
+M = 8
+\\
+P = \frac{1 - \frac{q}{p}^s}{1 - \frac{q}{p}^M}
+$$
+In R we find:
+
+```{r}
+q = 0.6
+p = 0.4
+s = 1
+M = 8
+P = (1 - (q/p)^s) / (1 - (q/p)^M)
+P
+```
+
+(b) he bets, each time, as much as possible but not more than necessary to
+bring his fortune up to 8 dollars (bold strategy).
+1 to 2 to 4 to 8
+Starting at 1, he must win 3 succesive bets (or lose everything). This gives 
+us the problem of finding the probability of:
+
+```{r}
+0.4 ^ 3
+```
+
+(c) Which strategy gives Smith the better chance of getting out of jail?
+
+The bold stratagey would be better. 
+
+
+If he started off with two dollars:
+
+
+```{r}
+B = 0.4 ^2
+B
+q = 0.6
+p = 0.4
+s = 2
+M = 8
+T = (1 - (q/p)^s) / (1 - (q/p)^M)
+T
+```
+
+So he is still better than if he did the timid stratagy.
+
+This makes sense because the law of large numbers will lead to achieving the expected value (0).
+
