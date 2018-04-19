@@ -1,0 +1,155 @@
+---
+title: "Assignment 12"
+author: "Kai Lukowiak"
+date: '2018-04-18'
+output:
+  html_document:
+    toc: true
+    toc_float:
+      smooth_scroll: true
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r warning=F, message=F, echo=FALSE}
+library(tidyverse)
+library(ggthemes)
+```
+
+```{r message=F, warning=F}
+df <- read_csv('who.csv')
+```
+
+## Question 1
+Provide a scatterplot of LifeExp~TotExp, and run simple linear regression. Do not transform the variables. Provide and interpret the F statistics, R^2, standard error,and p-values only. Discuss whether the assumptions of simple linear regression met.
+
+```{r}
+p <- ggplot(data = df, aes(x = TotExp, y = LifeExp)) +
+  geom_point() +
+  ggtitle('Life Expectancy vs. Total Expendature', 'Data from the WHO') +
+  xlab('Total Expendature (Government and Private)') +
+  ylab('Life Expectancy') +
+  theme_tufte() +
+  geom_smooth(method='lm', se = FALSE, color = 'grey')
+p
+mod1 <- lm(formula = LifeExp ~ TotExp, data = df)
+sum1 <- summary(mod1)
+fstat <- sum1$fstatistic 
+fstatVal <- fstat[1] %>% round(4)
+fpVal <- pf(fstat[1],fstat[2],fstat[3],lower.tail=F)
+rsq <- sum1$r.squared
+standErr <- sum1$coefficients[ , 2]
+sum1
+```
+
+The F statistic is `r fstatVal`, tests if any of the variables of OLS are significantly different from zero. 
+Our F statsitic was calucalted with one independant variable and 188 degrees of freedom. it has a significance of 
+`r fpVal` which is higly significant. This means that the one included variable is significant. (Similarly a t-test could have been performed.)
+
+The $R^2$ for the regression is: `r rsq` which means `r rsq * 100`% of the variance in expenditure explains the variance in life expectancy.
+
+The standard error is: `r standErr[2]` which is the standard deviation of the sampling distrobution. Lower numbers mean more significance (because they directly relate to the t test.). 
+
+I did not include the SE of the intercept because intercepts are harder to interpret. 
+
+The p-value for the model is `r sum1$coefficients[6]` which means that it is higly significant. The same logic holds true in that I won't include the intercept. 
+
+## Question 2
+Raise life expectancy to the 4.6 power (i.e., LifeExp^4.6). Raise total expenditures to the 0.06 power (nearly a log transform, TotExp^.06). Plot LifeExp^4.6 as a function of TotExp^.06, and r re-run the simple regression model using the transformed variables. Provide and interpret the F statistics, R^2, standard error, and p-values. Which model is "better?"
+
+
+```{r}
+p <- ggplot(data = df, aes(x = TotExp^0.06, y = LifeExp^4.6)) +
+  geom_point() +
+  ggtitle('Life Expectancy vs. Total Expendature', 'Data from the WHO') +
+  xlab('Total Expendature (Government and Private)p^0.06') +
+  ylab('Life Expectancy^4.6') +
+  theme_tufte() +
+  geom_smooth(method='lm', se = FALSE, color = 'grey')
+p
+
+
+mod2 <- lm(I(LifeExp^4.6) ~ I(TotExp^0.06), df)
+sum2 <- summary(mod2)
+fstat2 <- sum2$fstatistic 
+fstatVal2 <- fstat2[1] %>% round(4)
+fpVal2 <- pf(fstat2[1],fstat2[2],fstat2[3],lower.tail=F)
+rsq2 <- sum2$r.squared
+standErr2 <- sum2$coefficients[ , 2]
+sum2
+
+```
+
+The F statistic is `r fstatVal2`, is significant and also higher than the un-transformed model. 
+
+
+`r fpVal2` which is higly significant (baisically zero) which is much better than the original.
+
+The $R^2$ for the regression is: `r rsq2` which means `r rsq2 * 100`% of the variance in expenditure explains the variance in life expectancy. This is far higher than the original.
+
+The standard error is: `r standErr2[2]` which is the standard deviation of the sampling distrobution. Again this is better than the original (however it needs to be interpreted differently because the variables are different.)
+
+I did not include the SE of the intercept because intercepts are harder to interpret. 
+
+The p-value for the model is `r sum2$coefficients[6]` which means that it is higly significant. The same logic holds true in that I won't include the intercept. 
+
+## Question 3
+
+Using the results from 3, forecast life expectancy when TotExp^.06 =1.5. Then forecast life expectancy when TotExp^.06=2.5.
+
+```{r}
+new=data.frame(TotExp=c(860.705, 4288777))
+predict(mod2, new)^(1/4.6) # Necessary since predict does not transform respons variable.
+```
+
+
+## Question 4
+
+Build the following multiple regression model and interpret the F Statistics, R^2, standard error, and p-values. How good is the model?
+$$LifeExp = b_0+b_1 \cdot PropMd + b_2 \cdot TotExp +b_3 \cdot PropMD \cdot TotExp$$
+
+```{r}
+mod3 <- lm(LifeExp ~ PropMD + TotExp + I(PropMD * TotExp), df)
+sum3 <- summary(mod3)
+
+fstat3 <- sum3$fstatistic 
+fstatVal3 <- fstat3[1] %>% round(4)
+fpVal3 <- pf(fstat3[1],fstat3[2],fstat3[3],lower.tail=F)
+rsq3 <- sum3$r.squared
+standErr3 <- sum3$coefficients[ , 2]
+sum3
+```
+
+This model (with the interaction term) and aditional variable performs better than the original with a higher 
+F statistic: `r fstatVal3`. This is better than the un-transformed model but not as good as the transformed model. The p-value for this is `r fpVal3`.
+
+The $R^2$ is also better than the original but not as good as the transformed: `r rsq3`.
+
+Likewise, the SE is not between the two models. 
+
+## Question 5
+Forecast LifeExp when PropMD=.03 and TotExp = 14. Does this forecast seem realistic? Why or why not?
+
+```{r}
+new3 <- data.frame(PropMD = 0.03, TotExp = 14)
+predict(mod3, new3)
+```
+
+This makes little sense because one would not expect a country with the lowest total expendature (around 14) to have around the highest percent of MDs. The model should only be interpreted locally. 
+
+
+## Question 1 with Linear Algebra
+
+```{r}
+X <- matrix(df$TotExp)
+ones <- matrix(rep.int(1, length(X)))
+X <- cbind(X,ones)
+colnames(X) <- cbind('TotExp', 'Intercept')
+y <- df$LifeExp
+mod4 <- solve(crossprod(X), crossprod(X,y))
+mod4
+```
+
