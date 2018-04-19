@@ -1480,7 +1480,7 @@ div.tocify {
 <pre class="r"><code>df &lt;- read_csv('who.csv')</code></pre>
 <div id="question-1" class="section level2">
 <h2>Question 1</h2>
-<p>Provide a scatterplot of LifeExp~TotExp, and run simple linear regression. Do not transform the variables. Provide and interpret the F statistics, R^2, standard error,and p-values only. Discuss whether the assumptions of simple linear regression met.</p>
+<p>Provide a scatter plot of LifeExp~TotExp, and run simple linear regression. Do not transform the variables. Provide and interpret the F statistics, R^2, standard error,and p-values only. Discuss whether the assumptions of simple linear regression met.</p>
 <pre class="r"><code>p &lt;- ggplot(data = df, aes(x = TotExp, y = LifeExp)) +
   geom_point() +
   ggtitle('Life Expectancy vs. Total Expendature', 'Data from the WHO') +
@@ -1516,11 +1516,11 @@ sum1</code></pre>
 ## Residual standard error: 9.371 on 188 degrees of freedom
 ## Multiple R-squared:  0.2577, Adjusted R-squared:  0.2537 
 ## F-statistic: 65.26 on 1 and 188 DF,  p-value: 7.714e-14</code></pre>
-<p>The F statistic is 65.2642, tests if any of the variables of OLS are significantly different from zero. Our F statsitic was calucalted with one independant variable and 188 degrees of freedom. it has a significance of 7.713993110^{-14} which is higly significant. This means that the one included variable is significant. (Similarly a t-test could have been performed.)</p>
+<p>The F statistic is 65.2642, tests if any of the variables of OLS are significantly different from zero. Our F statistic was calculated with one independent variable and 188 degrees of freedom. it has a significance of 7.713993110^{-14} which is highly significant. This means that the one included variable is significant. (Similarly a t-test could have been performed.)</p>
 <p>The <span class="math inline">\(R^2\)</span> for the regression is: 0.2576922 which means 25.769216% of the variance in expenditure explains the variance in life expectancy.</p>
-<p>The standard error is: 7.794665610^{-6} which is the standard deviation of the sampling distrobution. Lower numbers mean more significance (because they directly relate to the t test.).</p>
+<p>The standard error is: 7.794665610^{-6} which is the standard deviation of the sampling distribution. Lower numbers mean more significance (because they directly relate to the t test.).</p>
 <p>I did not include the SE of the intercept because intercepts are harder to interpret.</p>
-<p>The p-value for the model is 8.078626 which means that it is higly significant. The same logic holds true in that I won’t include the intercept.</p>
+<p>The p-value for the model is 8.078626 which means that it is highly significant. The same logic holds true in that I won’t include the intercept.</p>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
@@ -1561,11 +1561,11 @@ sum2</code></pre>
 ## Multiple R-squared:  0.7298, Adjusted R-squared:  0.7283 
 ## F-statistic: 507.7 on 1 and 188 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>The F statistic is 507.6967, is significant and also higher than the un-transformed model.</p>
-<p>2.601428410^{-55} which is higly significant (baisically zero) which is much better than the original.</p>
+<p>2.601428410^{-55} which is highly significant (basically zero) which is much better than the original.</p>
 <p>The <span class="math inline">\(R^2\)</span> for the regression is: 0.7297673 which means 72.9767299% of the variance in expenditure explains the variance in life expectancy. This is far higher than the original.</p>
-<p>The standard error is: 2.75189410^{7} which is the standard deviation of the sampling distrobution. Again this is better than the original (however it needs to be interpreted differently because the variables are different.)</p>
+<p>The standard error is: 2.75189410^{7} which is the standard deviation of the sampling distribution. Again this is better than the original (however it needs to be interpreted differently because the variables are different.)</p>
 <p>I did not include the SE of the intercept because intercepts are harder to interpret.</p>
-<p>The p-value for the model is 22.5321261 which means that it is higly significant. The same logic holds true in that I won’t include the intercept.</p>
+<p>The p-value for the model is 22.5321261 which means that it is highly significant. The same logic holds true in that I won’t include the intercept.</p>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
@@ -1608,7 +1608,7 @@ sum3</code></pre>
 ## Residual standard error: 8.765 on 186 degrees of freedom
 ## Multiple R-squared:  0.3574, Adjusted R-squared:  0.3471 
 ## F-statistic: 34.49 on 3 and 186 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>This model (with the interaction term) and aditional variable performs better than the original with a higher F statistic: 34.4883. This is better than the un-transformed model but not as good as the transformed model. The p-value for this is 9.024193310^{-18}.</p>
+<p>This model (with the interaction term) and additional variable performs better than the original with a higher F statistic: 34.4883. This is better than the un-transformed model but not as good as the transformed model. The p-value for this is 9.024193310^{-18}.</p>
 <p>The <span class="math inline">\(R^2\)</span> is also better than the original but not as good as the transformed: 0.3574352.</p>
 <p>Likewise, the SE is not between the two models.</p>
 </div>
@@ -1619,7 +1619,7 @@ sum3</code></pre>
 predict(mod3, new3)</code></pre>
 <pre><code>##       1 
 ## 107.696</code></pre>
-<p>This makes little sense because one would not expect a country with the lowest total expendature (around 14) to have around the highest percent of MDs. The model should only be interpreted locally.</p>
+<p>This makes little sense because one would not expect a country with the lowest total expenditure (around 14) to have around the highest percent of MDs. The model should only be interpreted locally.</p>
 </div>
 <div id="question-1-with-linear-algebra" class="section level2">
 <h2>Question 1 with Linear Algebra</h2>

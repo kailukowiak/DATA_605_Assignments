@@ -24,7 +24,7 @@ df <- read_csv('who.csv')
 ```
 
 ## Question 1
-Provide a scatterplot of LifeExp~TotExp, and run simple linear regression. Do not transform the variables. Provide and interpret the F statistics, R^2, standard error,and p-values only. Discuss whether the assumptions of simple linear regression met.
+Provide a scatter plot of LifeExp~TotExp, and run simple linear regression. Do not transform the variables. Provide and interpret the F statistics, R^2, standard error,and p-values only. Discuss whether the assumptions of simple linear regression met.
 
 ```{r}
 p <- ggplot(data = df, aes(x = TotExp, y = LifeExp)) +
@@ -46,16 +46,16 @@ sum1
 ```
 
 The F statistic is `r fstatVal`, tests if any of the variables of OLS are significantly different from zero. 
-Our F statsitic was calucalted with one independant variable and 188 degrees of freedom. it has a significance of 
-`r fpVal` which is higly significant. This means that the one included variable is significant. (Similarly a t-test could have been performed.)
+Our F statistic was calculated with one independent variable and 188 degrees of freedom. it has a significance of 
+`r fpVal` which is highly significant. This means that the one included variable is significant. (Similarly a t-test could have been performed.)
 
 The $R^2$ for the regression is: `r rsq` which means `r rsq * 100`% of the variance in expenditure explains the variance in life expectancy.
 
-The standard error is: `r standErr[2]` which is the standard deviation of the sampling distrobution. Lower numbers mean more significance (because they directly relate to the t test.). 
+The standard error is: `r standErr[2]` which is the standard deviation of the sampling distribution. Lower numbers mean more significance (because they directly relate to the t test.). 
 
 I did not include the SE of the intercept because intercepts are harder to interpret. 
 
-The p-value for the model is `r sum1$coefficients[6]` which means that it is higly significant. The same logic holds true in that I won't include the intercept. 
+The p-value for the model is `r sum1$coefficients[6]` which means that it is highly significant. The same logic holds true in that I won't include the intercept. 
 
 ## Question 2
 Raise life expectancy to the 4.6 power (i.e., LifeExp^4.6). Raise total expenditures to the 0.06 power (nearly a log transform, TotExp^.06). Plot LifeExp^4.6 as a function of TotExp^.06, and r re-run the simple regression model using the transformed variables. Provide and interpret the F statistics, R^2, standard error, and p-values. Which model is "better?"
@@ -86,15 +86,15 @@ sum2
 The F statistic is `r fstatVal2`, is significant and also higher than the un-transformed model. 
 
 
-`r fpVal2` which is higly significant (baisically zero) which is much better than the original.
+`r fpVal2` which is highly significant (basically zero) which is much better than the original.
 
 The $R^2$ for the regression is: `r rsq2` which means `r rsq2 * 100`% of the variance in expenditure explains the variance in life expectancy. This is far higher than the original.
 
-The standard error is: `r standErr2[2]` which is the standard deviation of the sampling distrobution. Again this is better than the original (however it needs to be interpreted differently because the variables are different.)
+The standard error is: `r standErr2[2]` which is the standard deviation of the sampling distribution. Again this is better than the original (however it needs to be interpreted differently because the variables are different.)
 
 I did not include the SE of the intercept because intercepts are harder to interpret. 
 
-The p-value for the model is `r sum2$coefficients[6]` which means that it is higly significant. The same logic holds true in that I won't include the intercept. 
+The p-value for the model is `r sum2$coefficients[6]` which means that it is highly significant. The same logic holds true in that I won't include the intercept. 
 
 ## Question 3
 
@@ -123,7 +123,7 @@ standErr3 <- sum3$coefficients[ , 2]
 sum3
 ```
 
-This model (with the interaction term) and aditional variable performs better than the original with a higher 
+This model (with the interaction term) and additional variable performs better than the original with a higher 
 F statistic: `r fstatVal3`. This is better than the un-transformed model but not as good as the transformed model. The p-value for this is `r fpVal3`.
 
 The $R^2$ is also better than the original but not as good as the transformed: `r rsq3`.
@@ -138,7 +138,7 @@ new3 <- data.frame(PropMD = 0.03, TotExp = 14)
 predict(mod3, new3)
 ```
 
-This makes little sense because one would not expect a country with the lowest total expendature (around 14) to have around the highest percent of MDs. The model should only be interpreted locally. 
+This makes little sense because one would not expect a country with the lowest total expenditure (around 14) to have around the highest percent of MDs. The model should only be interpreted locally. 
 
 
 ## Question 1 with Linear Algebra
