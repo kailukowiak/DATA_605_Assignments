@@ -1,0 +1,153 @@
+---
+title: "Assignment 11"
+author: "Kai Lukowiak"
+date: '2018-04-19'
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r warning=F, message=F, echo=FALSE}
+library(tidyverse)
+library(ggthemes)
+library(knitr)
+library(broom)
+```
+
+
+# Problem
+Using the “cars” dataset in R, build a linear model for stopping distance as a function of speed and replicate the analysis of your textbook chapter 3 (visualization, quality evaluation of the model, and residual analysis.)
+
+## Data:
+
+```{r}
+data("cars")
+cars %>% head() %>% kable()
+```
+
+
+
+## Plots
+
+```{r}
+p <- ggplot(cars, aes(speed, dist)) +
+  geom_point() +
+  ggtitle('Stopping Distance VS Speed') +
+  xlab("Speed") +
+  ylab("Stopping Distance") +
+  scale_x_continuous(limits = c(0, 26)) +
+  scale_y_continuous(limits = c(0, 125)) +
+  theme_tufte()
+p
+```
+
+From the plotted relationship we see that the relationship looks roughly linear. There could be a bit of a quadratic relationship because as speed increases there looks to be a supra-linear increase in stopping distance. 
+This would be consitant with what we know from physics [where the breaking distance is a quadratic function of speed](https://en.wikipedia.org/wiki/Braking_distance). Because observed speeds in this data set are low $>30mph$ this effect is deminished. Also, we would expec a car goign 0 mph to stop at zero distance. A quick eyeball of the data shows that a trend line would not do this.
+
+Taking the square root of stoppind distance should fix this.
+
+## Model 
+
+```{r}
+mod <- lm(dist~speed, cars)
+summary(mod)
+```
+
+We can see that the model does a good job of fitting the data, with an $R^2$ of 65. Also both points coefficents are significant. Given this significance, it is also not surprising the F statistic is also significant. 
+
+So even with the suspected non-linear relationship, the model still does well. 
+
+The thing that makes the least sense is the intercept value, which should be zero. The fact that it is so negative suggests that the data is non-linear. 
+
+## Add Line
+
+```{r}
+p + geom_smooth(method='lm', se = FALSE, color = 'grey')
+```
+
+This plot further confirms there may be slight non-linearity.
+
+## Residiual Plot
+
+```{r}
+df <- augment(mod) # https://stackoverflow.com/questions/36731027/how-can-i-plot-the-residuals-of-lm-with-ggplot
+ggplot(df, aes(.fitted, .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  theme_tufte()
+```
+
+The residual plot shows heterosckedasticity as the error seems to be related to the fitted values. 
+
+## QQPlot
+
+```{r}
+
+# Thanks to this site for the function:
+# https://stackoverflow.com/questions/4357031/qqnorm-and-qqline-in-ggplot2
+ggQQ <- function(LM) # argument: a linear model
+{
+    y <- quantile(LM$resid[!is.na(LM$resid)], c(0.25, 0.75))
+    x <- qnorm(c(0.25, 0.75))
+    slope <- diff(y)/diff(x)
+    int <- y[1L] - slope * x[1L]
+    p <- ggplot(LM, aes(sample=.resid)) +
+        stat_qq() +
+        geom_abline(slope = slope, intercept = int, color="light grey") +
+      theme_tufte()
+
+    return(p)
+}
+
+ggQQ(mod)
+```
+
+The qqplot also shows that our errors are not normally distributed because of the deviance from the line at both the start and end.
+
+# Transformed Data
+## Lets see if we can do better?
+
+
+```{r}
+transCars <- cars
+transCars$dist = sqrt(transCars$dist)
+```
+
+```{r}
+p <- ggplot(transCars, aes(speed, dist)) +
+  geom_point() +
+  ggtitle('Stopping Distance VS Speed') +
+  xlab("Speed") +
+  ylab("Stopping Distance") +
+  theme_tufte()
+p
+```
+
+```{r}
+p + geom_smooth(method='lm', se = FALSE, color = 'grey')
+```
+
+
+
+```{r}
+mod <- lm(dist~speed, transCars)
+summary(mod)
+```
+
+```{r}
+df <- augment(mod) # https://stackoverflow.com/questions/36731027/how-can-i-plot-the-residuals-of-lm-with-ggplot
+ggplot(df, aes(.fitted, .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  theme_tufte()
+```
+
+
+```{r}
+ggQQ(mod)
+```
+
+The scatter plot and residual plot both look better. The $R^2$ is higher, howver the QQPlot still indicates there may be some issues. Over all I think it's a better model. 
