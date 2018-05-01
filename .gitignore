@@ -38,3 +38,9 @@ vignettes/*.pdf
 *~
 .Rproj.user
 rsconnect/
+
+*.log
+*.priv
+*.aux
+*.priv
+*.DS_Store
