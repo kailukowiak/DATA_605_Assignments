@@ -1,0 +1,67 @@
+---
+title: "Week13 Discussion"
+author: "Kai Lukowiak"
+date: '2018-05-02'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 4.2.3
+Water flows onto a flat surface at a rate of 5cm3/s forming a
+circular puddle 10mm deep. How fast is the radius growing
+when the radius is:
+a) 1 cm
+b) 10 cm
+c) 100 cm
+
+Let $V=volume$, $r=radius$, $A=Area$ and $d = depth$.
+
+
+$$
+V=A \cdot d
+\\
+\therefore
+\\
+V=A \cdot 0.1cm
+\\
+\&
+\\
+\frac{\partial}{\partial t}= 0.1cm \frac{\partial A}{\partial t}
+$$
+We know that $\frac{\partial V}{\partial t} = 5cm \quad \therefore \quad 5=0.1 \frac{\partial A}{\partial t}$ 
+therefor $\frac{\partial A}{\partial t} = 50$
+
+
+$$
+A=\pi r^2
+\\
+\frac{\partial A}{\partial t}=\frac{\partial}{\partial t}(\pi r^2)
+\\
+\frac{\partial A}{\partial t}=2 \pi r \frac{\partial r}{\partial t}
+$$
+
+Since we know that $\frac{\partial A}{\partial t} = 50$ then $50 = 2 \pi r \frac{\partial r}{\partial t}$
+Thus the rate of change is.
+$$
+\frac{50}{ 2 \pi r } = \frac{\partial r}{\partial t}
+$$
+
+Thus to answer our questions:
+
+```{r}
+nums <- c(1,10,100)
+
+ans <- function(r){
+  50/(2 * pi * r)
+}
+
+ans(nums)
+```
+
+Are the respective rates of change.
+$$
+\delta
+$$
