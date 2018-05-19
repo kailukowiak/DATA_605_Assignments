@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Kai Lukowiak" />
+
+<meta name="date" content="2018-05-18" />
+
+<title>Final Exam</title>
+
+<script src="KLukowiakFinalExam_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="KLukowiakFinalExam_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="KLukowiakFinalExam_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="KLukowiakFinalExam_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="KLukowiakFinalExam_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="KLukowiakFinalExam_files/navigation-1.1/tabsets.js"></script>
+<link href="KLukowiakFinalExam_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="KLukowiakFinalExam_files/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="FinalExam/styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Final Exam</h1>
+<h4 class="author"><em>Kai Lukowiak</em></h4>
+<h4 class="date"><em>2018-05-18</em></h4>
+
+</div>
+
+
+<div id="instructions" class="section level1">
+<h1>Instructions</h1>
+<p>Your final is due by the end of day on 5/20/2018 You should post your solutions to your GitHub account or RPubs. You are also expected to make a short presentation via YouTube and post that recording to the board. This project will show off your ability to understand the elements of the class.</p>
+<p>You are to register for Kaggle.com (free) and compete in the House Prices: Advanced Regression Techniques competition. <a href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques" class="uri">https://www.kaggle.com/c/house-prices-advanced-regression-techniques</a> . I want you to do the following.</p>
+</div>
+<div id="data-reading-and-libraries" class="section level1">
+<h1>Data Reading and Libraries</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(ggthemes)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(knitr)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;train.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">df[<span class="kw">sapply</span>(df, is.character)] &lt;-<span class="st"> </span><span class="kw">lapply</span>(df[<span class="kw">sapply</span>(df, is.character)], as.factor)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">glimpse</span>(df)</a></code></pre></div>
+<pre><code>## Observations: 1,460
+## Variables: 81
+## $ Id            &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1...
+## $ MSSubClass    &lt;int&gt; 60, 20, 60, 70, 60, 50, 20, 60, 50, 190, 20, 60,...
+## $ MSZoning      &lt;fct&gt; RL, RL, RL, RL, RL, RL, RL, RL, RM, RL, RL, RL, ...
+## $ LotFrontage   &lt;int&gt; 65, 80, 68, 60, 84, 85, 75, NA, 51, 50, 70, 85, ...
+## $ LotArea       &lt;int&gt; 8450, 9600, 11250, 9550, 14260, 14115, 10084, 10...
+## $ Street        &lt;fct&gt; Pave, Pave, Pave, Pave, Pave, Pave, Pave, Pave, ...
+## $ Alley         &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ...
+## $ LotShape      &lt;fct&gt; Reg, Reg, IR1, IR1, IR1, IR1, Reg, IR1, Reg, Reg...
+## $ LandContour   &lt;fct&gt; Lvl, Lvl, Lvl, Lvl, Lvl, Lvl, Lvl, Lvl, Lvl, Lvl...
+## $ Utilities     &lt;fct&gt; AllPub, AllPub, AllPub, AllPub, AllPub, AllPub, ...
+## $ LotConfig     &lt;fct&gt; Inside, FR2, Inside, Corner, FR2, Inside, Inside...
+## $ LandSlope     &lt;fct&gt; Gtl, Gtl, Gtl, Gtl, Gtl, Gtl, Gtl, Gtl, Gtl, Gtl...
+## $ Neighborhood  &lt;fct&gt; CollgCr, Veenker, CollgCr, Crawfor, NoRidge, Mit...
+## $ Condition1    &lt;fct&gt; Norm, Feedr, Norm, Norm, Norm, Norm, Norm, PosN,...
+## $ Condition2    &lt;fct&gt; Norm, Norm, Norm, Norm, Norm, Norm, Norm, Norm, ...
+## $ BldgType      &lt;fct&gt; 1Fam, 1Fam, 1Fam, 1Fam, 1Fam, 1Fam, 1Fam, 1Fam, ...
+## $ HouseStyle    &lt;fct&gt; 2Story, 1Story, 2Story, 2Story, 2Story, 1.5Fin, ...
+## $ OverallQual   &lt;int&gt; 7, 6, 7, 7, 8, 5, 8, 7, 7, 5, 5, 9, 5, 7, 6, 7, ...
+## $ OverallCond   &lt;int&gt; 5, 8, 5, 5, 5, 5, 5, 6, 5, 6, 5, 5, 6, 5, 5, 8, ...
+## $ YearBuilt     &lt;int&gt; 2003, 1976, 2001, 1915, 2000, 1993, 2004, 1973, ...
+## $ YearRemodAdd  &lt;int&gt; 2003, 1976, 2002, 1970, 2000, 1995, 2005, 1973, ...
+## $ RoofStyle     &lt;fct&gt; Gable, Gable, Gable, Gable, Gable, Gable, Gable,...
+## $ RoofMatl      &lt;fct&gt; CompShg, CompShg, CompShg, CompShg, CompShg, Com...
+## $ Exterior1st   &lt;fct&gt; VinylSd, MetalSd, VinylSd, Wd Sdng, VinylSd, Vin...
+## $ Exterior2nd   &lt;fct&gt; VinylSd, MetalSd, VinylSd, Wd Shng, VinylSd, Vin...
+## $ MasVnrType    &lt;fct&gt; BrkFace, None, BrkFace, None, BrkFace, None, Sto...
+## $ MasVnrArea    &lt;int&gt; 196, 0, 162, 0, 350, 0, 186, 240, 0, 0, 0, 286, ...
+## $ ExterQual     &lt;fct&gt; Gd, TA, Gd, TA, Gd, TA, Gd, TA, TA, TA, TA, Ex, ...
+## $ ExterCond     &lt;fct&gt; TA, TA, TA, TA, TA, TA, TA, TA, TA, TA, TA, TA, ...
+## $ Foundation    &lt;fct&gt; PConc, CBlock, PConc, BrkTil, PConc, Wood, PConc...
+## $ BsmtQual      &lt;fct&gt; Gd, Gd, Gd, TA, Gd, Gd, Ex, Gd, TA, TA, TA, Ex, ...
+## $ BsmtCond      &lt;fct&gt; TA, TA, TA, Gd, TA, TA, TA, TA, TA, TA, TA, TA, ...
+## $ BsmtExposure  &lt;fct&gt; No, Gd, Mn, No, Av, No, Av, Mn, No, No, No, No, ...
+## $ BsmtFinType1  &lt;fct&gt; GLQ, ALQ, GLQ, ALQ, GLQ, GLQ, GLQ, ALQ, Unf, GLQ...
+## $ BsmtFinSF1    &lt;int&gt; 706, 978, 486, 216, 655, 732, 1369, 859, 0, 851,...
+## $ BsmtFinType2  &lt;fct&gt; Unf, Unf, Unf, Unf, Unf, Unf, Unf, BLQ, Unf, Unf...
+## $ BsmtFinSF2    &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ BsmtUnfSF     &lt;int&gt; 150, 284, 434, 540, 490, 64, 317, 216, 952, 140,...
+## $ TotalBsmtSF   &lt;int&gt; 856, 1262, 920, 756, 1145, 796, 1686, 1107, 952,...
+## $ Heating       &lt;fct&gt; GasA, GasA, GasA, GasA, GasA, GasA, GasA, GasA, ...
+## $ HeatingQC     &lt;fct&gt; Ex, Ex, Ex, Gd, Ex, Ex, Ex, Ex, Gd, Ex, Ex, Ex, ...
+## $ CentralAir    &lt;fct&gt; Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, ...
+## $ Electrical    &lt;fct&gt; SBrkr, SBrkr, SBrkr, SBrkr, SBrkr, SBrkr, SBrkr,...
+## $ `1stFlrSF`    &lt;int&gt; 856, 1262, 920, 961, 1145, 796, 1694, 1107, 1022...
+## $ `2ndFlrSF`    &lt;int&gt; 854, 0, 866, 756, 1053, 566, 0, 983, 752, 0, 0, ...
+## $ LowQualFinSF  &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
+## $ GrLivArea     &lt;int&gt; 1710, 1262, 1786, 1717, 2198, 1362, 1694, 2090, ...
+## $ BsmtFullBath  &lt;int&gt; 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, ...
+## $ BsmtHalfBath  &lt;int&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
+## $ FullBath      &lt;int&gt; 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 1, 3, 1, 2, 1, 1, ...
+## $ HalfBath      &lt;int&gt; 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, ...
+## $ BedroomAbvGr  &lt;int&gt; 3, 3, 3, 3, 4, 1, 3, 3, 2, 2, 3, 4, 2, 3, 2, 2, ...
+## $ KitchenAbvGr  &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, ...
+## $ KitchenQual   &lt;fct&gt; Gd, TA, Gd, Gd, Gd, TA, Gd, TA, TA, TA, TA, Ex, ...
+## $ TotRmsAbvGrd  &lt;int&gt; 8, 6, 6, 7, 9, 5, 7, 7, 8, 5, 5, 11, 4, 7, 5, 5,...
+## $ Functional    &lt;fct&gt; Typ, Typ, Typ, Typ, Typ, Typ, Typ, Typ, Min1, Ty...
+## $ Fireplaces    &lt;int&gt; 0, 1, 1, 1, 1, 0, 1, 2, 2, 2, 0, 2, 0, 1, 1, 0, ...
+## $ FireplaceQu   &lt;fct&gt; NA, TA, TA, Gd, TA, NA, Gd, TA, TA, TA, NA, Gd, ...
+## $ GarageType    &lt;fct&gt; Attchd, Attchd, Attchd, Detchd, Attchd, Attchd, ...
+## $ GarageYrBlt   &lt;int&gt; 2003, 1976, 2001, 1998, 2000, 1993, 2004, 1973, ...
+## $ GarageFinish  &lt;fct&gt; RFn, RFn, RFn, Unf, RFn, Unf, RFn, RFn, Unf, RFn...
+## $ GarageCars    &lt;int&gt; 2, 2, 2, 3, 3, 2, 2, 2, 2, 1, 1, 3, 1, 3, 1, 2, ...
+## $ GarageArea    &lt;int&gt; 548, 460, 608, 642, 836, 480, 636, 484, 468, 205...
+## $ GarageQual    &lt;fct&gt; TA, TA, TA, TA, TA, TA, TA, TA, Fa, Gd, TA, TA, ...
+## $ GarageCond    &lt;fct&gt; TA, TA, TA, TA, TA, TA, TA, TA, TA, TA, TA, TA, ...
+## $ PavedDrive    &lt;fct&gt; Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, ...
+## $ WoodDeckSF    &lt;int&gt; 0, 298, 0, 0, 192, 40, 255, 235, 90, 0, 0, 147, ...
+## $ OpenPorchSF   &lt;int&gt; 61, 0, 42, 35, 84, 30, 57, 204, 0, 4, 0, 21, 0, ...
+## $ EnclosedPorch &lt;int&gt; 0, 0, 0, 272, 0, 0, 0, 228, 205, 0, 0, 0, 0, 0, ...
+## $ `3SsnPorch`   &lt;int&gt; 0, 0, 0, 0, 0, 320, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...
+## $ ScreenPorch   &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 176, 0, 0, 0...
+## $ PoolArea      &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
+## $ PoolQC        &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ...
+## $ Fence         &lt;fct&gt; NA, NA, NA, NA, NA, MnPrv, NA, NA, NA, NA, NA, N...
+## $ MiscFeature   &lt;fct&gt; NA, NA, NA, NA, NA, Shed, NA, Shed, NA, NA, NA, ...
+## $ MiscVal       &lt;int&gt; 0, 0, 0, 0, 0, 700, 0, 350, 0, 0, 0, 0, 0, 0, 0,...
+## $ MoSold        &lt;int&gt; 2, 5, 9, 2, 12, 10, 8, 11, 4, 1, 2, 7, 9, 8, 5, ...
+## $ YrSold        &lt;int&gt; 2008, 2007, 2008, 2006, 2008, 2009, 2007, 2009, ...
+## $ SaleType      &lt;fct&gt; WD, WD, WD, WD, WD, WD, WD, WD, WD, WD, WD, New,...
+## $ SaleCondition &lt;fct&gt; Normal, Normal, Normal, Abnorml, Normal, Normal,...
+## $ SalePrice     &lt;int&gt; 208500, 181500, 223500, 140000, 250000, 143000, ...</code></pre>
+<ul>
+<li>Pick one of the quantitative independent variables from the training data set (train.csv) , and define that variable as X. Make sure this variable is skewed to the right!</li>
+<li>Pick the dependent variable and define it as Y</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(psych)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">skewDF &lt;-<span class="st"> </span><span class="kw">describe</span>(df)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">test &lt;-<span class="st"> </span>skewDF <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(skew) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">VarName =</span> <span class="kw">names</span>(df)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(<span class="kw">abs</span>(skew))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span><span class="kw">head</span>()</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">test</a></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["skew"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["VarName"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"38.13147","2":"Utilities","_rn_":"1"},{"1":"24.42652","2":"MiscVal","_rn_":"2"},{"1":"-15.48690","2":"Street","_rn_":"3"},{"1":"14.79792","2":"PoolArea","_rn_":"4"},{"1":"13.14479","2":"Condition2","_rn_":"5"},{"1":"12.18262","2":"LotArea","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><code>LotArea</code> has a large skeww</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> df, <span class="kw">aes</span>(<span class="dt">x=</span>LotArea)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">colour =</span> ggthemes_data<span class="op">$</span>solarized<span class="op">$</span>base[<span class="st">&#39;base00&#39;</span>], </a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">               <span class="dt">fill =</span> ggthemes_data<span class="op">$</span>solarized<span class="op">$</span>accents[<span class="st">&#39;blue&#39;</span>], </a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">               <span class="dt">alpha =</span> <span class="fl">0.4</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_solarized</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Lot Area&#39;</span>)</a></code></pre></div>
+<p><img src="KLukowiakFinalExam_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>We can verify this skew with the summary of the data:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">summary</span>(df<span class="op">$</span>LotArea)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1300    7554    9478   10517   11602  215245</code></pre>
+<p>This has an obvious right skew.</p>
+<div id="probability" class="section level2">
+<h2>Probability</h2>
+<p>Calculate as a minimum the below probabilities a through c. Assume the small letter “x” is estimated as the 1st quartile of the X variable, and the small letter “y” is estimated as the 1st quartile of the Y variable. Interpret the meaning of all probabilities. In addition, make a table of counts as shown below.</p>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(P(X&gt;x | Y&gt;y)\)</span> b. <span class="math inline">\(P(X&gt;x, Y&gt;y)\)</span> c. <span class="math inline">\(P(X&lt;x | Y&gt;y)\)</span></li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(P(B|A) = \frac{P(A) \cup P(B)}{P(A)}\)</span> Therefor, <span class="math inline">\(P(X&gt;x | Y&gt;y) = \frac{P( Y&gt;y) \cup P(X&gt;x)}{P(Y&gt;y)}\)</span></li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Vars</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">q1x &lt;-<span class="st"> </span><span class="kw">quantile</span>(df<span class="op">$</span>LotArea, <span class="fl">0.25</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">q1y &lt;-<span class="st"> </span><span class="kw">quantile</span>(df<span class="op">$</span>SalePrice, <span class="fl">0.25</span>)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">x &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(LotArea <span class="op">&gt;</span><span class="st"> </span>q1x ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nrow</span>()</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">y &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(SalePrice <span class="op">&gt;</span><span class="st"> </span>q1y) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nrow</span>()</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">X &lt;-<span class="st"> </span><span class="kw">nrow</span>(df)</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">Y &lt;-<span class="st"> </span><span class="kw">nrow</span>(df)</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">a &lt;-<span class="st"> </span>(x<span class="op">/</span>X <span class="op">*</span><span class="st"> </span>y<span class="op">/</span>Y)<span class="op">/</span>(y<span class="op">/</span>Y)</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">b &lt;-<span class="st"> </span>(x<span class="op">/</span>X <span class="op">*</span><span class="st"> </span>y<span class="op">/</span>Y)</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">c &lt;-<span class="st"> </span>((X<span class="op">-</span>x)<span class="op">/</span>X <span class="op">*</span><span class="st"> </span>y<span class="op">/</span>Y)<span class="op">/</span>(y<span class="op">/</span>Y)</a></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li><p>The conditional probability is 0.75</p></li>
+<li><p>The joint probability is 0.5625</p></li>
+<li><p>The conditional prbability is 0.25</p></li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">one &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(LotArea <span class="op">&lt;=</span><span class="st"> </span>q1x <span class="op">&amp;</span><span class="st"> </span>SalePrice <span class="op">&lt;=</span><span class="st"> </span>q1y) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nrow</span>()</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">two &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(LotArea <span class="op">&gt;</span><span class="st"> </span>q1x <span class="op">&amp;</span><span class="st"> </span>SalePrice <span class="op">&lt;=</span><span class="st"> </span>q1y) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nrow</span>()</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">three &lt;-<span class="st"> </span>one <span class="op">+</span><span class="st"> </span>two</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">four &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(LotArea <span class="op">&lt;=</span><span class="st"> </span>q1x <span class="op">&amp;</span><span class="st"> </span>SalePrice <span class="op">&gt;</span><span class="st"> </span>q1y) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nrow</span>()</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">five &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(LotArea <span class="op">&gt;</span><span class="st"> </span>q1x <span class="op">&amp;</span><span class="st"> </span>SalePrice <span class="op">&gt;</span><span class="st"> </span>q1y) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nrow</span>()</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">six &lt;-<span class="st"> </span>four <span class="op">+</span><span class="st"> </span>five</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">seven &lt;-<span class="st"> </span>one <span class="op">+</span><span class="st"> </span>four</a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">eight &lt;-<span class="st"> </span>two <span class="op">+</span><span class="st"> </span>five</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">nine &lt;-<span class="st"> </span>three <span class="op">+</span><span class="st"> </span>six</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th>x/y</th>
+<th>&lt;=1st quartile</th>
+<th>&gt;1st quartile</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&lt;= 1st q</td>
+<td>168</td>
+<td>197</td>
+<td>365</td>
+</tr>
+<tr class="even">
+<td>&gt;1st q</td>
+<td>197</td>
+<td>898</td>
+<td>1095</td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>365</td>
+<td>1095</td>
+<td>1460</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="does-splitting-the-training-data-in-this-fashion-make-them-independent" class="section level2">
+<h2>Does splitting the training data in this fashion make them independent?</h2>
+<p>Let A be the new variable counting those observations above the 1st quartile for X, and let B be the new variable counting those observations above the 1st quartile for Y. Does <span class="math inline">\(P(A|B)=P(A)P(B)\)</span>? Check mathematically, and then evaluate by running a Chi Square test for association.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">A &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(LotArea <span class="op">&gt;</span><span class="st"> </span>q1x ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nrow</span>()<span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(df)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">B &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(SalePrice <span class="op">&gt;</span><span class="st"> </span>q1y ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nrow</span>()<span class="op">/</span><span class="kw">nrow</span>(df)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">AB &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(LotArea <span class="op">&gt;</span><span class="st"> </span>q1x, SalePrice <span class="op">&gt;</span><span class="st"> </span>q1y) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nrow</span>() <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(df)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">AB <span class="op">/</span>B</a></code></pre></div>
+<pre><code>## [1] 0.8200913</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">A<span class="op">*</span>B</a></code></pre></div>
+<pre><code>## [1] 0.5625</code></pre>
+<p>Thes results are different meaning that they are not independant. Thus, splitting them will not fix this.</p>
+</div>
+<div id="chi-squared-test" class="section level2">
+<h2>Chi Squared Test</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">chiMat &lt;-<span class="st"> </span><span class="kw">table</span>(df<span class="op">$</span>LotArea, df<span class="op">$</span>SalePrice)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">chisq.test</span>(chiMat)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  chiMat
+## X-squared = 735090, df = 709660, p-value &lt; 2.2e-16</code></pre>
+<p>Since the critical value of <span class="math inline">\(\chi\)</span> is high, we reject the null hypothesis that they are dependant.</p>
+</div>
+</div>
+<div id="descriptive-and-inferential-statistics" class="section level1">
+<h1>Descriptive and Inferential Statistics</h1>
+<div id="provide-univariate-descriptive-statistics-and-appropriate-plots-for-the-training-data-set." class="section level2">
+<h2>Provide univariate descriptive statistics and appropriate plots for the training data set.</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">summary</span>(df)</a></code></pre></div>
+<pre><code>##        Id           MSSubClass       MSZoning     LotFrontage    
+##  Min.   :   1.0   Min.   : 20.0   C (all):  10   Min.   : 21.00  
+##  1st Qu.: 365.8   1st Qu.: 20.0   FV     :  65   1st Qu.: 59.00  
+##  Median : 730.5   Median : 50.0   RH     :  16   Median : 69.00  
+##  Mean   : 730.5   Mean   : 56.9   RL     :1151   Mean   : 70.05  
+##  3rd Qu.:1095.2   3rd Qu.: 70.0   RM     : 218   3rd Qu.: 80.00  
+##  Max.   :1460.0   Max.   :190.0                  Max.   :313.00  
+##                                                  NA&#39;s   :259     
+##     LotArea        Street      Alley      LotShape  LandContour
+##  Min.   :  1300   Grvl:   6   Grvl:  50   IR1:484   Bnk:  63   
+##  1st Qu.:  7554   Pave:1454   Pave:  41   IR2: 41   HLS:  50   
+##  Median :  9478               NA&#39;s:1369   IR3: 10   Low:  36   
+##  Mean   : 10517                           Reg:925   Lvl:1311   
+##  3rd Qu.: 11602                                                
+##  Max.   :215245                                                
+##                                                                
+##   Utilities      LotConfig    LandSlope   Neighborhood   Condition1  
+##  AllPub:1459   Corner : 263   Gtl:1382   NAmes  :225   Norm   :1260  
+##  NoSeWa:   1   CulDSac:  94   Mod:  65   CollgCr:150   Feedr  :  81  
+##                FR2    :  47   Sev:  13   OldTown:113   Artery :  48  
+##                FR3    :   4              Edwards:100   RRAn   :  26  
+##                Inside :1052              Somerst: 86   PosN   :  19  
+##                                          Gilbert: 79   RRAe   :  11  
+##                                          (Other):707   (Other):  15  
+##    Condition2     BldgType      HouseStyle   OverallQual    
+##  Norm   :1445   1Fam  :1220   1Story :726   Min.   : 1.000  
+##  Feedr  :   6   2fmCon:  31   2Story :445   1st Qu.: 5.000  
+##  Artery :   2   Duplex:  52   1.5Fin :154   Median : 6.000  
+##  PosN   :   2   Twnhs :  43   SLvl   : 65   Mean   : 6.099  
+##  RRNn   :   2   TwnhsE: 114   SFoyer : 37   3rd Qu.: 7.000  
+##  PosA   :   1                 1.5Unf : 14   Max.   :10.000  
+##  (Other):   2                 (Other): 19                   
+##   OverallCond      YearBuilt     YearRemodAdd    RoofStyle   
+##  Min.   :1.000   Min.   :1872   Min.   :1950   Flat   :  13  
+##  1st Qu.:5.000   1st Qu.:1954   1st Qu.:1967   Gable  :1141  
+##  Median :5.000   Median :1973   Median :1994   Gambrel:  11  
+##  Mean   :5.575   Mean   :1971   Mean   :1985   Hip    : 286  
+##  3rd Qu.:6.000   3rd Qu.:2000   3rd Qu.:2004   Mansard:   7  
+##  Max.   :9.000   Max.   :2010   Max.   :2010   Shed   :   2  
+##                                                              
+##     RoofMatl     Exterior1st   Exterior2nd    MasVnrType    MasVnrArea    
+##  CompShg:1434   VinylSd:515   VinylSd:504   BrkCmn : 15   Min.   :   0.0  
+##  Tar&amp;Grv:  11   HdBoard:222   MetalSd:214   BrkFace:445   1st Qu.:   0.0  
+##  WdShngl:   6   MetalSd:220   HdBoard:207   None   :864   Median :   0.0  
+##  WdShake:   5   Wd Sdng:206   Wd Sdng:197   Stone  :128   Mean   : 103.7  
+##  ClyTile:   1   Plywood:108   Plywood:142   NA&#39;s   :  8   3rd Qu.: 166.0  
+##  Membran:   1   CemntBd: 61   CmentBd: 60                 Max.   :1600.0  
+##  (Other):   2   (Other):128   (Other):136                 NA&#39;s   :8       
+##  ExterQual ExterCond  Foundation  BsmtQual   BsmtCond    BsmtExposure
+##  Ex: 52    Ex:   3   BrkTil:146   Ex  :121   Fa  :  45   Av  :221    
+##  Fa: 14    Fa:  28   CBlock:634   Fa  : 35   Gd  :  65   Gd  :134    
+##  Gd:488    Gd: 146   PConc :647   Gd  :618   Po  :   2   Mn  :114    
+##  TA:906    Po:   1   Slab  : 24   TA  :649   TA  :1311   No  :953    
+##            TA:1282   Stone :  6   NA&#39;s: 37   NA&#39;s:  37   NA&#39;s: 38    
+##                      Wood  :  3                                      
+##                                                                      
+##  BsmtFinType1   BsmtFinSF1     BsmtFinType2   BsmtFinSF2     
+##  ALQ :220     Min.   :   0.0   ALQ :  19    Min.   :   0.00  
+##  BLQ :148     1st Qu.:   0.0   BLQ :  33    1st Qu.:   0.00  
+##  GLQ :418     Median : 383.5   GLQ :  14    Median :   0.00  
+##  LwQ : 74     Mean   : 443.6   LwQ :  46    Mean   :  46.55  
+##  Rec :133     3rd Qu.: 712.2   Rec :  54    3rd Qu.:   0.00  
+##  Unf :430     Max.   :5644.0   Unf :1256    Max.   :1474.00  
+##  NA&#39;s: 37                      NA&#39;s:  38                     
+##    BsmtUnfSF       TotalBsmtSF      Heating     HeatingQC CentralAir
+##  Min.   :   0.0   Min.   :   0.0   Floor:   1   Ex:741    N:  95    
+##  1st Qu.: 223.0   1st Qu.: 795.8   GasA :1428   Fa: 49    Y:1365    
+##  Median : 477.5   Median : 991.5   GasW :  18   Gd:241              
+##  Mean   : 567.2   Mean   :1057.4   Grav :   7   Po:  1              
+##  3rd Qu.: 808.0   3rd Qu.:1298.2   OthW :   2   TA:428              
+##  Max.   :2336.0   Max.   :6110.0   Wall :   4                       
+##                                                                     
+##  Electrical      1stFlrSF       2ndFlrSF     LowQualFinSF    
+##  FuseA:  94   Min.   : 334   Min.   :   0   Min.   :  0.000  
+##  FuseF:  27   1st Qu.: 882   1st Qu.:   0   1st Qu.:  0.000  
+##  FuseP:   3   Median :1087   Median :   0   Median :  0.000  
+##  Mix  :   1   Mean   :1163   Mean   : 347   Mean   :  5.845  
+##  SBrkr:1334   3rd Qu.:1391   3rd Qu.: 728   3rd Qu.:  0.000  
+##  NA&#39;s :   1   Max.   :4692   Max.   :2065   Max.   :572.000  
+##                                                              
+##    GrLivArea     BsmtFullBath     BsmtHalfBath        FullBath    
+##  Min.   : 334   Min.   :0.0000   Min.   :0.00000   Min.   :0.000  
+##  1st Qu.:1130   1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:1.000  
+##  Median :1464   Median :0.0000   Median :0.00000   Median :2.000  
+##  Mean   :1515   Mean   :0.4253   Mean   :0.05753   Mean   :1.565  
+##  3rd Qu.:1777   3rd Qu.:1.0000   3rd Qu.:0.00000   3rd Qu.:2.000  
+##  Max.   :5642   Max.   :3.0000   Max.   :2.00000   Max.   :3.000  
+##                                                                   
+##     HalfBath       BedroomAbvGr    KitchenAbvGr   KitchenQual
+##  Min.   :0.0000   Min.   :0.000   Min.   :0.000   Ex:100     
+##  1st Qu.:0.0000   1st Qu.:2.000   1st Qu.:1.000   Fa: 39     
+##  Median :0.0000   Median :3.000   Median :1.000   Gd:586     
+##  Mean   :0.3829   Mean   :2.866   Mean   :1.047   TA:735     
+##  3rd Qu.:1.0000   3rd Qu.:3.000   3rd Qu.:1.000              
+##  Max.   :2.0000   Max.   :8.000   Max.   :3.000              
+##                                                              
+##   TotRmsAbvGrd    Functional    Fireplaces    FireplaceQu   GarageType 
+##  Min.   : 2.000   Maj1:  14   Min.   :0.000   Ex  : 24    2Types :  6  
+##  1st Qu.: 5.000   Maj2:   5   1st Qu.:0.000   Fa  : 33    Attchd :870  
+##  Median : 6.000   Min1:  31   Median :1.000   Gd  :380    Basment: 19  
+##  Mean   : 6.518   Min2:  34   Mean   :0.613   Po  : 20    BuiltIn: 88  
+##  3rd Qu.: 7.000   Mod :  15   3rd Qu.:1.000   TA  :313    CarPort:  9  
+##  Max.   :14.000   Sev :   1   Max.   :3.000   NA&#39;s:690    Detchd :387  
+##                   Typ :1360                               NA&#39;s   : 81  
+##   GarageYrBlt   GarageFinish   GarageCars      GarageArea     GarageQual 
+##  Min.   :1900   Fin :352     Min.   :0.000   Min.   :   0.0   Ex  :   3  
+##  1st Qu.:1961   RFn :422     1st Qu.:1.000   1st Qu.: 334.5   Fa  :  48  
+##  Median :1980   Unf :605     Median :2.000   Median : 480.0   Gd  :  14  
+##  Mean   :1979   NA&#39;s: 81     Mean   :1.767   Mean   : 473.0   Po  :   3  
+##  3rd Qu.:2002                3rd Qu.:2.000   3rd Qu.: 576.0   TA  :1311  
+##  Max.   :2010                Max.   :4.000   Max.   :1418.0   NA&#39;s:  81  
+##  NA&#39;s   :81                                                              
+##  GarageCond  PavedDrive   WoodDeckSF      OpenPorchSF     EnclosedPorch   
+##  Ex  :   2   N:  90     Min.   :  0.00   Min.   :  0.00   Min.   :  0.00  
+##  Fa  :  35   P:  30     1st Qu.:  0.00   1st Qu.:  0.00   1st Qu.:  0.00  
+##  Gd  :   9   Y:1340     Median :  0.00   Median : 25.00   Median :  0.00  
+##  Po  :   7              Mean   : 94.24   Mean   : 46.66   Mean   : 21.95  
+##  TA  :1326              3rd Qu.:168.00   3rd Qu.: 68.00   3rd Qu.:  0.00  
+##  NA&#39;s:  81              Max.   :857.00   Max.   :547.00   Max.   :552.00  
+##                                                                           
+##    3SsnPorch       ScreenPorch        PoolArea        PoolQC    
+##  Min.   :  0.00   Min.   :  0.00   Min.   :  0.000   Ex  :   2  
+##  1st Qu.:  0.00   1st Qu.:  0.00   1st Qu.:  0.000   Fa  :   2  
+##  Median :  0.00   Median :  0.00   Median :  0.000   Gd  :   3  
+##  Mean   :  3.41   Mean   : 15.06   Mean   :  2.759   NA&#39;s:1453  
+##  3rd Qu.:  0.00   3rd Qu.:  0.00   3rd Qu.:  0.000              
+##  Max.   :508.00   Max.   :480.00   Max.   :738.000              
+##                                                                 
+##    Fence      MiscFeature    MiscVal             MoSold      
+##  GdPrv:  59   Gar2:   2   Min.   :    0.00   Min.   : 1.000  
+##  GdWo :  54   Othr:   2   1st Qu.:    0.00   1st Qu.: 5.000  
+##  MnPrv: 157   Shed:  49   Median :    0.00   Median : 6.000  
+##  MnWw :  11   TenC:   1   Mean   :   43.49   Mean   : 6.322  
+##  NA&#39;s :1179   NA&#39;s:1406   3rd Qu.:    0.00   3rd Qu.: 8.000  
+##                           Max.   :15500.00   Max.   :12.000  
+##                                                              
+##      YrSold        SaleType    SaleCondition    SalePrice     
+##  Min.   :2006   WD     :1267   Abnorml: 101   Min.   : 34900  
+##  1st Qu.:2007   New    : 122   AdjLand:   4   1st Qu.:129975  
+##  Median :2008   COD    :  43   Alloca :  12   Median :163000  
+##  Mean   :2008   ConLD  :   9   Family :  20   Mean   :180921  
+##  3rd Qu.:2009   ConLI  :   5   Normal :1198   3rd Qu.:214000  
+##  Max.   :2010   ConLw  :   5   Partial: 125   Max.   :755000  
+##                 (Other):   9</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="st">  </span><span class="kw">select_if</span>(is.numeric) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">  </span><span class="kw">gather</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>key, <span class="dt">ncol =</span> <span class="dv">4</span>, <span class="dt">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_solarized</span>()</a></code></pre></div>
+<p><img src="KLukowiakFinalExam_files/figure-html/unnamed-chunk-12-1.png" width="1152" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">  </span><span class="kw">select_if</span>(is.factor) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">  </span><span class="kw">gather</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&#39;count&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>key, <span class="dt">ncol =</span> <span class="dv">4</span>, <span class="dt">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_solarized</span>()</a></code></pre></div>
+<p><img src="KLukowiakFinalExam_files/figure-html/unnamed-chunk-13-1.png" width="1152" /></p>
+</div>
+<div id="provide-a-scatterplot-of-x-and-y." class="section level2">
+<h2>Provide a scatterplot of X and Y.</h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(LotArea, SalePrice))<span class="op">+</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> ggthemes_data<span class="op">$</span>solarized<span class="op">$</span>base[<span class="st">&#39;base00&#39;</span>])<span class="op">+</span></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">  </span><span class="kw">theme_solarized</span>()</a></code></pre></div>
+<p><img src="KLukowiakFinalExam_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="derive-a-correlation-matrix-for-any-three-quantitative-variables-in-the-dataset." class="section level2">
+<h2>Derive a correlation matrix for any THREE quantitative variables in the dataset.</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;LotArea&#39;</span>, <span class="st">&#39;SalePrice&#39;</span>, <span class="st">&#39;GrLivArea&#39;</span>)</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">corDF &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(LotArea, SalePrice, GrLivArea) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">cor</span>(<span class="dt">use =</span> <span class="st">&quot;complete.obs&quot;</span>)</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4">corDF</a></code></pre></div>
+<pre><code>##             LotArea SalePrice GrLivArea
+## LotArea   1.0000000 0.2638434 0.2631162
+## SalePrice 0.2638434 1.0000000 0.7086245
+## GrLivArea 0.2631162 0.7086245 1.0000000</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">library</span>(corrplot)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">corrplot</span>(corDF)</a></code></pre></div>
+<p><img src="KLukowiakFinalExam_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="test-the-hypotheses-that-the-correlations-between-each-pairwise-set-of-variables-is-0-and-provide-a-92-confidence-interval." class="section level2">
+<h2>Test the hypotheses that the correlations between each pairwise set of variables is 0 and provide a 92% confidence interval.</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">testCor &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(LotArea, SalePrice, GrLivArea)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw">cor.test</span>(testCor<span class="op">$</span>LotArea, testCor<span class="op">$</span>SalePrice, <span class="dt">conf.level =</span> <span class="fl">0.92</span>)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  testCor$LotArea and testCor$SalePrice
+## t = 10.445, df = 1458, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 92 percent confidence interval:
+##  0.2206794 0.3059759
+## sample estimates:
+##       cor 
+## 0.2638434</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">cor.test</span>(testCor<span class="op">$</span>LotArea, testCor<span class="op">$</span>GrLivArea, <span class="dt">conf.level =</span> <span class="fl">0.92</span>)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  testCor$LotArea and testCor$GrLivArea
+## t = 10.414, df = 1458, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 92 percent confidence interval:
+##  0.2199359 0.3052674
+## sample estimates:
+##       cor 
+## 0.2631162</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">cor.test</span>(testCor<span class="op">$</span>SalePrice, testCor<span class="op">$</span>GrLivArea, <span class="dt">conf.level =</span> <span class="fl">0.92</span>)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  testCor$SalePrice and testCor$GrLivArea
+## t = 38.348, df = 1458, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 92 percent confidence interval:
+##  0.6850407 0.7307245
+## sample estimates:
+##       cor 
+## 0.7086245</code></pre>
+</div>
+<div id="discuss-the-meaning-of-your-analysis." class="section level2">
+<h2>Discuss the meaning of your analysis.</h2>
+<p>DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</p>
+</div>
+<div id="would-you-be-worried-about-familywise-error-why-or-why-not" class="section level2">
+<h2>Would you be worried about familywise error? Why or why not?</h2>
+</div>
+</div>
+<div id="linear-algebra-and-correlation." class="section level1">
+<h1>Linear Algebra and Correlation.</h1>
+<div id="invert-your-3-x-3-correlation-matrix-from-above." class="section level2">
+<h2>Invert your 3 x 3 correlation matrix from above.</h2>
+<p>(This is known as the precision matrix and contains variance inflation factors on the diagonal.)</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">corDFT &lt;-<span class="st"> </span><span class="kw">t</span>(corDF)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">corDFT</a></code></pre></div>
+<pre><code>##             LotArea SalePrice GrLivArea
+## LotArea   1.0000000 0.2638434 0.2631162
+## SalePrice 0.2638434 1.0000000 0.7086245
+## GrLivArea 0.2631162 0.7086245 1.0000000</code></pre>
+</div>
+<div id="multiply-the-correlation-matrix-by-the-precision-matrix-and-then-multiply-the-precision-matrix-by-the-correlation-matrix." class="section level2">
+<h2>Multiply the correlation matrix by the precision matrix, and then multiply the precision matrix by the correlation matrix.</h2>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">corDF <span class="op">%*%</span><span class="st"> </span>corDFT</a></code></pre></div>
+<pre><code>##             LotArea SalePrice GrLivArea
+## LotArea   1.1388434 0.7141373 0.7131982
+## SalePrice 0.7141373 1.5717620 1.4866704
+## GrLivArea 0.7131982 1.4866704 1.5713788</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">corDFT <span class="op">%*%</span><span class="st"> </span>corDF</a></code></pre></div>
+<pre><code>##             LotArea SalePrice GrLivArea
+## LotArea   1.1388434 0.7141373 0.7131982
+## SalePrice 0.7141373 1.5717620 1.4866704
+## GrLivArea 0.7131982 1.4866704 1.5713788</code></pre>
+</div>
+<div id="conduct-lu-decomposition-on-the-matrix." class="section level2">
+<h2>Conduct LU decomposition on the matrix.</h2>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">library</span>(pracma)</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">luMat &lt;-<span class="st"> </span>corDFT <span class="op">%*%</span><span class="st"> </span>corDF</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="kw">lu</span>(luMat, <span class="dt">scheme =</span> <span class="st">&quot;ijk&quot;</span>)</a></code></pre></div>
+<pre><code>## $L
+##             LotArea SalePrice GrLivArea
+## LotArea   1.0000000 0.0000000         0
+## SalePrice 0.6270724 1.0000000         0
+## GrLivArea 0.6262478 0.9248161         1
+## 
+## $U
+##            LotArea SalePrice GrLivArea
+## LotArea   1.138843 0.7141373 0.7131982
+## SalePrice 0.000000 1.1239462 1.0394435
+## GrLivArea 0.000000 0.0000000 0.1634459</code></pre>
+</div>
+</div>
+<div id="calculus-based-probability-statistics" class="section level1">
+<h1>Calculus-Based Probability &amp; Statistics</h1>
+<p>Many times, it makes sense to fit a closed form distribution to data. For the first variable that you selected which is skewed to the right, shift it so that the minimum value is above zero as necessary.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">min</span>(df<span class="op">$</span>LotArea) <span class="co"># Above zero</span></a></code></pre></div>
+<pre><code>## [1] 1300</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">lotVec &lt;-<span class="st"> </span>df<span class="op">$</span>LotArea <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(df<span class="op">$</span>LotArea) <span class="op">+</span><span class="st"> </span><span class="fl">0.0001</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw">min</span>(lotVec)</a></code></pre></div>
+<pre><code>## [1] 1e-04</code></pre>
+<p>Then load the MASS package and run fitdistr to fit an exponential probability density function. (See <a href="https://stat.ethz.ch/R-manual/R-" class="uri">https://stat.ethz.ch/R-manual/R-</a> devel/library/MASS/html/fitdistr.html ).</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">library</span>(MASS)</a></code></pre></div>
+<p>Find the optimal value of λ for this distribution, and then take 1000 samples from this exponential distribution using this value (e.g., rexp(1000, λ)).</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">fitdistr</span>(lotVec, <span class="st">&quot;exponential&quot;</span>)</a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">lambda &lt;-<span class="st"> </span>fit<span class="op">$</span>estimate</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">lambda</a></code></pre></div>
+<pre><code>##         rate 
+## 0.0001084972</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">samples &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dv">1000</span>, lambda)</a></code></pre></div>
+<p>Plot a histogram and compare it with a histogram of your original variable.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">qplot</span>(samples, <span class="dt">main =</span> <span class="st">&#39;Simulated&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_solarized</span>()</a></code></pre></div>
+<p><img src="KLukowiakFinalExam_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">qplot</span>(lotVec, <span class="dt">main =</span> <span class="st">&#39;Observed&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_solarized</span>()</a></code></pre></div>
+<p><img src="KLukowiakFinalExam_files/figure-html/unnamed-chunk-23-2.png" width="672" /></p>
+<p>Using the exponential pdf, find the 5th and 95th percentiles using the cumulative distribution function (CDF).</p>
+<p><span class="math display">\[
+CDF = \frac{ln(1 - P)}{-\lambda}
+\]</span> Also generate a 95% confidence interval from the empirical data, assuming normality. Finally, provide the empirical 5th percentile and 95th percentile of the data. Discuss.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">cdf5 &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="fl">0.95</span>)<span class="op">/</span><span class="st"> </span><span class="op">-</span><span class="st"> </span>lambda</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">cdf95 &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="fl">0.05</span>)<span class="op">/</span><span class="st"> </span><span class="op">-</span><span class="st"> </span>lambda</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb49-4" data-line-number="4">obs5 &lt;-<span class="st"> </span><span class="kw">quantile</span>(lotVec, <span class="fl">0.05</span>)</a>
+<a class="sourceLine" id="cb49-5" data-line-number="5">obs95 &lt;-<span class="st"> </span><span class="kw">quantile</span>(lotVec, <span class="fl">0.95</span>)</a>
+<a class="sourceLine" id="cb49-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb49-7" data-line-number="7"><span class="kw">data_frame</span>(<span class="dt">Type =</span> <span class="kw">c</span>(<span class="st">&#39;Simulated&#39;</span>, <span class="st">&quot;Observed&quot;</span>), <span class="dt">P5 =</span> <span class="kw">c</span>(cdf5, obs5), <span class="dt">P95 =</span> <span class="kw">c</span>(cdf95, obs95)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Type</th>
+<th align="right">P5</th>
+<th align="right">P95</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Simulated</td>
+<td align="right">472.7615</td>
+<td align="right">27611.15</td>
+</tr>
+<tr class="even">
+<td align="left">Observed</td>
+<td align="right">2011.7001</td>
+<td align="right">16101.15</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">t.test</span>(lotVec)</a></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  lotVec
+## t = 35.284, df = 1459, p-value &lt; 2.2e-16
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  8704.418 9729.238
+## sample estimates:
+## mean of x 
+##  9216.828</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

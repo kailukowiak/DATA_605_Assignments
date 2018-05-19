@@ -1,0 +1,34 @@
+---
+title: "Week 15 Discussion"
+author: "Kai Lukowiak"
+date: '2018-05-16'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Form a function $z=f(x,y)$ such that it satisfies $f_x=\sin y + 1$ and $f_y = x\cos y$
+
+$$
+x \sin y+x
+$$
+
+The anti-derivative of $\cos$ is $\sin$. Therfore, the term $f_y$ term must integrate to $x\sin y$ this matches what we see in $f_x$ but without the $x$ term. Because the term is not zero, the there must be an $x$ infront of it before ther derivative WRT $x$ was taken. We also need to have a term that goes to zero for $f_y$ and one for $f_x$. This is simply $x$.
+
+To verify:
+
+$$
+f(x,y) = x \sin y +x
+\\
+f_x = \sin y + 1
+\\
+f_y=x\cos y
+$$
+
+Thus, we have the correct formula. We do not need to use a constant `c` in this because we only need to find ONE function, not tall. More generally, we coudl write:
+
+$$
+f(x,y) = x \sin y +x + c
+$$

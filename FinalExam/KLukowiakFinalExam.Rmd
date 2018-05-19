@@ -1,0 +1,432 @@
+---
+title: "Final Exam"
+author: "Kai Lukowiak"
+date: '2018-05-18'
+output: 
+  html_document:
+    self_contained: no
+    css: FinalExam/styles.css
+    df_print: paged
+    highlight: zenburn
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+
+# Instructions
+Your final is due by the end of day on 5/20/2018 You should post your solutions to your GitHub account or RPubs. You are also expected to make a short presentation via YouTube and post that recording to the board. This project will show off your ability to understand the elements of the class.
+
+You are to register for Kaggle.com (free) and compete in the House Prices: Advanced Regression Techniques competition. <https://www.kaggle.com/c/house-prices-advanced-regression-techniques> . I want you to do the following.
+
+# Data Reading and Libraries
+
+```{r}
+library(tidyverse)
+library(ggthemes)
+library(knitr)
+library(caret)
+```
+
+
+```{r}
+df <- read_csv('train.csv')
+df[sapply(df, is.character)] <- lapply(df[sapply(df, is.character)], as.factor)
+```
+```{r}
+glimpse(df)
+```
+
+* Pick one of the quantitative independent variables from the training data set (train.csv) , and define that variable as X. Make sure this variable is skewed to the right!
+* Pick the dependent variable and define it as Y
+
+
+```{r}
+library(psych)
+skewDF <- describe(df)
+test <- skewDF %>% 
+  select(skew) %>% 
+  mutate(VarName = names(df)) %>% 
+  arrange(desc(abs(skew))) %>% 
+  head()
+test
+```
+
+`LotArea` has a large skeww
+
+```{r}
+ggplot(data = df, aes(x=LotArea)) + 
+  geom_density(colour = ggthemes_data$solarized$base['base00'], 
+               fill = ggthemes_data$solarized$accents['blue'], 
+               alpha = 0.4) +
+  theme_solarized() +
+  ggtitle('Lot Area')
+```
+
+We can verify this skew with the summary of the data:
+
+```{r}
+summary(df$LotArea)
+```
+
+This has an obvious right skew.
+
+## Probability
+Calculate as a minimum the below probabilities a through c. Assume the small letter "x" is estimated as the 1st quartile of the X variable, and the small letter "y" is estimated as the 1st quartile of the Y variable. Interpret the meaning of all probabilities. In addition, make a table of counts as shown below.
+
+
+a. $P(X>x | Y>y)$ b. $P(X>x, Y>y)$ c. $P(X<x | Y>y)$
+
+
+a) $P(B|A) = \frac{P(A) \cup P(B)}{P(A)}$ Therefor, $P(X>x | Y>y) = \frac{P( Y>y) \cup P(X>x)}{P(Y>y)}$
+
+```{r}
+# Vars
+q1x <- quantile(df$LotArea, 0.25)
+q1y <- quantile(df$SalePrice, 0.25)
+x <- df %>% filter(LotArea > q1x ) %>% nrow()
+y <- df %>% filter(SalePrice > q1y) %>% nrow()
+X <- nrow(df)
+Y <- nrow(df)
+
+a <- (x/X * y/Y)/(y/Y)
+b <- (x/X * y/Y)
+c <- ((X-x)/X * y/Y)/(y/Y)
+```
+
+a) The conditional probability is `r a`
+
+b) The joint probability is `r b`
+
+c) The conditional prbability is `r c`
+
+
+```{r}
+one <- df %>% filter(LotArea <= q1x & SalePrice <= q1y) %>% nrow()
+two <- df %>% filter(LotArea > q1x & SalePrice <= q1y) %>% nrow()
+three <- one + two
+four <- df %>% filter(LotArea <= q1x & SalePrice > q1y) %>% nrow()
+five <- df %>% filter(LotArea > q1x & SalePrice > q1y) %>% nrow()
+six <- four + five
+seven <- one + four
+eight <- two + five
+nine <- three + six
+```
+
+| x/y      | <=1st quartile | >1st quartile | Total |
+|----------|----------------|---------------|-------|
+| <= 1st q |    `r one`     |    `r two`    |`r three`|
+| >1st q   | `r four`       |`r five`       |`r six`|
+| Total    |  `r seven`     | `r eight`     |`r nine`|
+
+
+## Does splitting the training data in this fashion make them independent?
+
+Let A be the new variable counting those observations above the 1st quartile for X, and let B be the new variable counting those observations above the 1st quartile for Y. Does $P(A|B)=P(A)P(B)$? Check mathematically, and then evaluate by running a Chi Square test for association.
+
+```{r}
+A <- df %>% filter(LotArea > q1x ) %>% nrow()/ nrow(df)
+B <- df %>% filter(SalePrice > q1y ) %>% nrow()/nrow(df)
+AB <- df %>% filter(LotArea > q1x, SalePrice > q1y) %>% nrow() / nrow(df)
+
+AB /B
+A*B
+```
+
+Thes results are different meaning that they are not independant. Thus, splitting them will not fix this.
+
+## Chi Squared Test
+
+```{r}
+chiMat <- table(df$LotArea, df$SalePrice)
+chisq.test(chiMat)
+```
+
+
+Since the critical value of $\chi$ is high, we reject the null hypothesis that they are dependant. 
+
+# Descriptive and Inferential Statistics
+
+## Provide univariate descriptive statistics and appropriate plots for the training data set. 
+
+```{r}
+summary(df)
+```
+
+
+```{r fig.height=10, fig.width=12}
+df %>% 
+  select_if(is.numeric) %>% 
+  gather() %>% 
+  ggplot(aes(x=value)) +
+  geom_histogram() +
+  facet_wrap(~key, ncol = 4, scales = 'free') +
+  theme_solarized()
+```
+
+
+```{r fig.height=10, fig.width=12}
+df %>% 
+  select_if(is.factor) %>% 
+  gather() %>% 
+  ggplot(aes(x=value)) +
+  geom_bar(stat = 'count') +
+  facet_wrap(~key, ncol = 4, scales = 'free') +
+  theme_solarized()
+```
+
+
+## Provide a scatterplot of X and Y. 
+
+```{r }
+ggplot(df, aes(LotArea, SalePrice))+
+  geom_point(colour = ggthemes_data$solarized$base['base00'])+
+  theme_solarized()
+```
+
+
+## Derive a correlation matrix for any THREE quantitative variables in the dataset. 
+
+```{r}
+vars <- c('LotArea', 'SalePrice', 'GrLivArea')
+
+corDF <- df %>% dplyr::select(LotArea, SalePrice, GrLivArea) %>% cor(use = "complete.obs")
+corDF
+library(corrplot)
+corrplot(corDF)
+```
+
+
+
+
+## Test the hypotheses that the correlations between each pairwise set of variables is 0 and provide a 92% confidence interval. 
+
+
+
+```{r}
+testCor <- df %>% dplyr::select(LotArea, SalePrice, GrLivArea)
+cor.test(testCor$LotArea, testCor$SalePrice, conf.level = 0.92)
+cor.test(testCor$LotArea, testCor$GrLivArea, conf.level = 0.92)
+cor.test(testCor$SalePrice, testCor$GrLivArea, conf.level = 0.92)
+```
+
+## Discuss the meaning of your analysis. 
+DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+
+## Would you be worried about familywise error? Why or why not?
+
+# Linear Algebra and Correlation.
+
+## Invert your 3 x 3 correlation matrix from above. 
+(This is known as the precision matrix and contains variance inflation factors on the diagonal.) 
+
+
+```{r}
+corDFT <- t(corDF)
+corDFT
+```
+
+
+## Multiply the correlation matrix by the precision matrix, and then multiply the precision matrix by the correlation matrix. 
+
+```{r}
+corDF %*% corDFT
+corDFT %*% corDF
+```
+
+
+## Conduct LU decomposition on the matrix.
+
+```{r}
+library(pracma)
+luMat <- corDFT %*% corDF
+lu(luMat, scheme = "ijk")
+```
+
+# Calculus-Based Probability & Statistics
+
+Many times, it makes sense to fit a closed form distribution to data. For the first variable that you selected which is skewed to the right, shift it so that the minimum value is above zero as necessary.
+
+```{r}
+min(df$LotArea) # Above zero
+lotVec <- df$LotArea - min(df$LotArea) + 0.0001
+min(lotVec)
+```
+
+
+Then load the MASS package and run fitdistr to fit an exponential probability density function. (See https://stat.ethz.ch/R-manual/R-
+devel/library/MASS/html/fitdistr.html ). 
+
+```{r}
+library(MASS)
+```
+
+Find the optimal value of λ for this distribution, and then take 1000 samples from this exponential distribution using this value (e.g., rexp(1000, λ)). 
+
+```{r}
+fit <- fitdistr(lotVec, "exponential")
+lambda <- fit$estimate
+lambda
+samples <- rexp(1000, lambda)
+```
+
+
+Plot a histogram and compare it with a histogram of your original variable. 
+```{r}
+qplot(samples, main = 'Simulated') + theme_solarized()
+qplot(lotVec, main = 'Observed') + theme_solarized()
+```
+
+
+Using the exponential pdf, find the 5th and 95th percentiles using the cumulative distribution function (CDF). 
+
+$$
+CDF = \frac{ln(1 - P)}{-\lambda}
+$$
+Also generate a 95% confidence interval from the empirical data, assuming normality. Finally, provide the empirical 5th percentile and 95th percentile of the data. Discuss.
+
+```{r}
+cdf5 <- log(0.95)/ - lambda
+cdf95 <- log(0.05)/ - lambda
+
+obs5 <- quantile(lotVec, 0.05)
+obs95 <- quantile(lotVec, 0.95)
+
+x1 <- t.test(lotVec)$conf.int[1:2]
+
+x <- data_frame(Type = c('Simulated', "Observed", "CI"), P5 = c(cdf5, obs5, x1[1]), P95 = c(cdf95, obs95, x1[2])) 
+kable(x)
+
+
+```
+
+The exponential distroubution does not do a good job of estimating the actual variables. In this case, a boot straped CI would proabably be more effective. The Actual t-test of the mean doesn't have much to do with the quantiles. 
+
+# Modeling
+
+Build some type of multiple regression model and submit your model to the competition board. Provide your complete model summary and results with analysis. Report your Kaggle.com user name and score.
+
+
+
+## Data cleaning:
+
+```{r}
+transDF <- mapply(df, function(x) ifelse(skewness(x) > 1, TRUE, FALSE))
+```
+
+```{r}
+cleaner <- function(df){
+  
+  numericNames <- df %>% select_if(is.numeric) %>% colnames()
+  factorNames <- df %>% select_if(is.factor) %>% colnames()
+
+  for (x in numericNames) {
+     meanValue <- mean(df[[x]],na.rm = TRUE)
+      df[[x]][is.na(df[[x]])] <- meanValue
+  }
+  # Skewed fix
+  for (i in numericNames) {
+    if (skewness(df[[i]]) > 1){
+      df[[i]] = log(df[[i]]+1)
+    }
+  }
+  
+  numericDF <- df[numericNames]
+  
+  dummies <- dummyVars(~.,df[factorNames])
+  categoricalDF <- predict(dummies,df[factorNames])
+  categoricalDF[is.na(categoricalDF)] <- 0
+  dfAns <- cbind(numericDF, categoricalDF)
+  dfAns <- as_data_frame(dfAns)
+  return(dfAns)
+}
+
+trainDF <- cleaner(df)
+testDF <- read_csv('test.csv')
+testDF[sapply(testDF, is.character)] <- lapply(testDF[sapply(testDF, is.character)], as.factor)
+Utilities <- testDF$Utilities
+testDF$Utilities <- NULL # Throws an error when converting to factor. 
+testDF <- cleaner(testDF)
+```
+
+
+```{r}
+testNames <- colnames(testDF)
+y <- as.matrix(trainDF$SalePrice)
+X <- trainDF[testNames]
+
+X$SalePrice <- trainDF$SalePrice
+
+#mod1 <- cv.glmnet(X, y, type.measure = "mse", nfolds = 10)
+
+X=model.matrix(SalePrice~.-1,data=X) 
+y=trainDF$SalePrice
+
+mod1 <- cv.glmnet(X, y, type.measure = "mse", nfolds = 10)
+
+```
+
+```{r}
+X_train = trainDF
+y_train = X_train$SalePrice
+X_train$SalePrice <- NULL
+CARET.TRAIN.CTRL <- trainControl(method="repeatedcv",
+                                 number= 10,
+                                 repeats= 10,
+                                 verboseIter=FALSE)
+
+model_lasso <- train(x=X_train,y=y_train,
+                  method="glmnet",
+                  metric="RMSE",
+                  maximize=FALSE,
+                  trControl=CARET.TRAIN.CTRL,
+                  tuneGrid=expand.grid(alpha=1,  # Lasso regression
+                                       lambda=c(1,0.1,0.05,0.01,seq(0.009,0.001,-0.001),
+                                            0.00075,0.0005,0.0001)))
+model_lasso
+```
+
+
+
+```{r}
+testX <- testDF
+id <- testX$Id
+testX$Id <- NULL
+testX <- as.matrix(testX)
+preds <- predict(mod1, newx = testX, s = "lambda.min")
+```
+
+
+
+
+```{r}
+
+testNames <- colnames(testDF)
+y <- as.matrix(trainDF$SalePrice)
+X <- trainDF[testNames]
+
+X$SalePrice <- trainDF$SalePrice
+
+#mod1 <- cv.glmnet(X, y, type.measure = "mse", nfolds = 10)
+
+x=model.matrix(SalePrice~.-1,data=X) 
+y=trainDF$SalePrice
+
+cv.lasso=cv.glmnet(x,y)
+plot(cv.lasso)
+```
+
+
+```{r}
+SalePrice <- exp(preds)
+ans <- data.frame( list(Id = id, SalePrice = SalePrice))
+colnames(ans) <- c('Id', 'SalePrice')
+write.csv(ans, 'kaislasso.csv', row.names = FALSE)
+```
+
+
+
+
