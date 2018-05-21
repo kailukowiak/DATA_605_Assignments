@@ -4,10 +4,9 @@ author: "Kai Lukowiak"
 date: '2018-05-18'
 output: 
   html_document:
-    self_contained: no
-    css: FinalExam/styles.css
     df_print: paged
-    highlight: zenburn
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
@@ -29,6 +28,8 @@ library(tidyverse)
 library(ggthemes)
 library(knitr)
 library(caret)
+library(e1071)
+library(glmnet)
 ```
 
 
@@ -36,6 +37,9 @@ library(caret)
 df <- read_csv('train.csv')
 df[sapply(df, is.character)] <- lapply(df[sapply(df, is.character)], as.factor)
 ```
+
+## The data Frame
+
 ```{r}
 glimpse(df)
 ```
@@ -62,7 +66,7 @@ ggplot(data = df, aes(x=LotArea)) +
   geom_density(colour = ggthemes_data$solarized$base['base00'], 
                fill = ggthemes_data$solarized$accents['blue'], 
                alpha = 0.4) +
-  theme_solarized() +
+  theme_minimal() +
   ggtitle('Lot Area')
 ```
 
@@ -87,14 +91,15 @@ a) $P(B|A) = \frac{P(A) \cup P(B)}{P(A)}$ Therefor, $P(X>x | Y>y) = \frac{P( Y>y
 # Vars
 q1x <- quantile(df$LotArea, 0.25)
 q1y <- quantile(df$SalePrice, 0.25)
-x <- df %>% filter(LotArea > q1x ) %>% nrow()
-y <- df %>% filter(SalePrice > q1y) %>% nrow()
-X <- nrow(df)
-Y <- nrow(df)
+x <- df %>% filter(LotArea > q1x ) %>% nrow() / nrow(df)
+y <- df %>% filter(SalePrice > q1y) %>% nrow() / nrow(df)
+xy <- df %>% filter(SalePrice > q1y & LotArea > q1x) %>% nrow()/nrow(df)
 
-a <- (x/X * y/Y)/(y/Y)
-b <- (x/X * y/Y)
-c <- ((X-x)/X * y/Y)/(y/Y)
+yx <- df %>% filter(SalePrice > q1y & LotArea < q1x) %>% nrow()/nrow(df)
+
+a <- (xy)/(y)
+b <- x*y
+c <- yx/y
 ```
 
 a) The conditional probability is `r a`
@@ -125,6 +130,8 @@ nine <- three + six
 
 ## Does splitting the training data in this fashion make them independent?
 
+
+
 Let A be the new variable counting those observations above the 1st quartile for X, and let B be the new variable counting those observations above the 1st quartile for Y. Does $P(A|B)=P(A)P(B)$? Check mathematically, and then evaluate by running a Chi Square test for association.
 
 ```{r}
@@ -134,19 +141,20 @@ AB <- df %>% filter(LotArea > q1x, SalePrice > q1y) %>% nrow() / nrow(df)
 
 AB /B
 A*B
+A
+B
 ```
 
-Thes results are different meaning that they are not independant. Thus, splitting them will not fix this.
+These results are different meaning that they are not independant because $P(A|B)\neq P(A)$. Thus, splitting them like in the table above will not make them independant.
 
 ## Chi Squared Test
 
 ```{r}
-chiMat <- table(df$LotArea, df$SalePrice)
-chisq.test(chiMat)
+chisq.test(df$LotArea, df$SalePrice)
 ```
 
 
-Since the critical value of $\chi$ is high, we reject the null hypothesis that they are dependant. 
+Since the critical value of $\chi$ is high, we reject the null hypothesis that they are independant. This comes at no surprise since the data are higly right skewed.
 
 # Descriptive and Inferential Statistics
 
@@ -164,7 +172,7 @@ df %>%
   ggplot(aes(x=value)) +
   geom_histogram() +
   facet_wrap(~key, ncol = 4, scales = 'free') +
-  theme_solarized()
+  theme_minimal()
 ```
 
 
@@ -175,7 +183,7 @@ df %>%
   ggplot(aes(x=value)) +
   geom_bar(stat = 'count') +
   facet_wrap(~key, ncol = 4, scales = 'free') +
-  theme_solarized()
+  theme_minimal()
 ```
 
 
@@ -183,8 +191,29 @@ df %>%
 
 ```{r }
 ggplot(df, aes(LotArea, SalePrice))+
-  geom_point(colour = ggthemes_data$solarized$base['base00'])+
-  theme_solarized()
+  geom_point(colour = 'skyblue', alpha = 0.3) +
+  theme_minimal()
+```
+
+
+```{r fig.height=10, fig.width=12}
+df %>% 
+  select_if(is.numeric) %>% 
+  gather(VariableName, Value, -SalePrice, -Id) %>% 
+  ggplot(aes(SalePrice,Value))+
+  geom_point(colour = 'gray28', alpha = 0.3) +
+  facet_wrap(~VariableName, ncol = 4, scales = 'free') +
+  theme_minimal()
+```
+
+```{r fig.height=10, fig.width=12}
+df %>% 
+  dplyr::select(which(sapply(.,class)=="factor"), SalePrice) %>% 
+  gather(VariableName, Value, -SalePrice) %>%
+  ggplot(aes(SalePrice,Value))+
+  geom_point(colour = 'gray28', alpha = 0.3) +
+  facet_wrap(~VariableName, ncol = 4, scales = 'free') +
+  theme_minimal()
 ```
 
 
@@ -214,13 +243,31 @@ cor.test(testCor$SalePrice, testCor$GrLivArea, conf.level = 0.92)
 ```
 
 ## Discuss the meaning of your analysis. 
-DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
-## Would you be worried about familywise error? Why or why not?
+All the correlations were significant.
+
+*Would you be worried about familywise error? Why or why not?*
+
+Familywise error is applicable when making multiple hypothesis tests. 
+
+$$
+\alpha = 1 - (1-p)^c
+$$
+Where $p$ is the confidence level and $c$ is the number of tests. 
+
+```{r}
+Alpha <- 1 -  0.92^3
+Alpha
+```
+
+So we have about a 22% chance of making a type one error. This is definitely something to be worried about, hwoever, given that the p values were below 0.08, we have less to worry about.
+
+
 
 # Linear Algebra and Correlation.
 
 ## Invert your 3 x 3 correlation matrix from above. 
+
 (This is known as the precision matrix and contains variance inflation factors on the diagonal.) 
 
 
@@ -230,7 +277,8 @@ corDFT
 ```
 
 
-## Multiply the correlation matrix by the precision matrix, and then multiply the precision matrix by the correlation matrix. 
+## Multiply 
+the correlation matrix by the precision matrix, and then multiply the precision matrix by the correlation matrix. 
 
 ```{r}
 corDF %*% corDFT
@@ -276,8 +324,8 @@ samples <- rexp(1000, lambda)
 
 Plot a histogram and compare it with a histogram of your original variable. 
 ```{r}
-qplot(samples, main = 'Simulated') + theme_solarized()
-qplot(lotVec, main = 'Observed') + theme_solarized()
+qplot(samples, main = 'Simulated') + theme_minimal()
+qplot(lotVec, main = 'Observed') + theme_minimal()
 ```
 
 
@@ -286,6 +334,7 @@ Using the exponential pdf, find the 5th and 95th percentiles using the cumulativ
 $$
 CDF = \frac{ln(1 - P)}{-\lambda}
 $$
+
 Also generate a 95% confidence interval from the empirical data, assuming normality. Finally, provide the empirical 5th percentile and 95th percentile of the data. Discuss.
 
 ```{r}
@@ -313,120 +362,103 @@ Build some type of multiple regression model and submit your model to the compet
 
 ## Data cleaning:
 
-```{r}
-transDF <- mapply(df, function(x) ifelse(skewness(x) > 1, TRUE, FALSE))
-```
+
+
 
 ```{r}
 cleaner <- function(df){
-  
   numericNames <- df %>% select_if(is.numeric) %>% colnames()
-  factorNames <- df %>% select_if(is.factor) %>% colnames()
-
   for (x in numericNames) {
      meanValue <- mean(df[[x]],na.rm = TRUE)
       df[[x]][is.na(df[[x]])] <- meanValue
   }
   # Skewed fix
   for (i in numericNames) {
-    if (skewness(df[[i]]) > 1){
-      df[[i]] = log(df[[i]]+1)
+    if (skewness(df[[i]]) > 0.75){
+      df[[i]] = log(df[[i]] + 1)
     }
   }
-  
-  numericDF <- df[numericNames]
-  
-  dummies <- dummyVars(~.,df[factorNames])
-  categoricalDF <- predict(dummies,df[factorNames])
-  categoricalDF[is.na(categoricalDF)] <- 0
-  dfAns <- cbind(numericDF, categoricalDF)
-  dfAns <- as_data_frame(dfAns)
-  return(dfAns)
+  df[is.na(df)] <- 'Unknown'
+  return(df)
 }
-
-trainDF <- cleaner(df)
+trainDF <- read_csv('train.csv')
 testDF <- read_csv('test.csv')
-testDF[sapply(testDF, is.character)] <- lapply(testDF[sapply(testDF, is.character)], as.factor)
-Utilities <- testDF$Utilities
-testDF$Utilities <- NULL # Throws an error when converting to factor. 
-testDF <- cleaner(testDF)
+trainDF$IsTrain <- TRUE
+testDF$IsTrain <- FALSE
+SalePrice <- log(trainDF$SalePrice)
+trainDF$SalePrice <- NULL
+Id <- testDF$Id
+aggDF <- rbind(trainDF, testDF)
+aggDF$Id <- NULL
+aggDF <- cleaner(aggDF)
+
+aggDF[sapply(aggDF, is.character)] <- lapply(aggDF[sapply(aggDF, is.character)], as.factor)
+aggDF[sapply(aggDF, is.factor)] <- lapply(aggDF[sapply(aggDF, is.factor)], as.numeric) # possible because of non-linear fitting
+
+trainDF <- aggDF %>% filter(IsTrain == TRUE)  %>% dplyr::select(-IsTrain)
+trainDF$SalePrice <- SalePrice
+testDF <- aggDF %>% filter(IsTrain == FALSE) %>% dplyr::select(-IsTrain)
+
+
 ```
 
 
 ```{r}
-testNames <- colnames(testDF)
-y <- as.matrix(trainDF$SalePrice)
-X <- trainDF[testNames]
+svmMod <- svm(SalePrice ~ ., data = trainDF, cost = 1)
+preds = predict(svmMod, testDF)
+submission = cbind(Id = Id, SalePrice = exp(preds))
+colnames(submission) = c("Id","SalePrice")
 
-X$SalePrice <- trainDF$SalePrice
-
-#mod1 <- cv.glmnet(X, y, type.measure = "mse", nfolds = 10)
-
-X=model.matrix(SalePrice~.-1,data=X) 
-y=trainDF$SalePrice
-
-mod1 <- cv.glmnet(X, y, type.measure = "mse", nfolds = 10)
+write.csv(submission,file="svmKai.csv",row.names=FALSE)
+# Kaggle Score: 0.16514
 
 ```
 
 ```{r}
-X_train = trainDF
-y_train = X_train$SalePrice
-X_train$SalePrice <- NULL
-CARET.TRAIN.CTRL <- trainControl(method="repeatedcv",
-                                 number= 10,
-                                 repeats= 10,
-                                 verboseIter=FALSE)
-
-model_lasso <- train(x=X_train,y=y_train,
-                  method="glmnet",
-                  metric="RMSE",
-                  maximize=FALSE,
-                  trControl=CARET.TRAIN.CTRL,
-                  tuneGrid=expand.grid(alpha=1,  # Lasso regression
-                                       lambda=c(1,0.1,0.05,0.01,seq(0.009,0.001,-0.001),
-                                            0.00075,0.0005,0.0001)))
-model_lasso
-```
-
-
-
-```{r}
-testX <- testDF
-id <- testX$Id
-testX$Id <- NULL
-testX <- as.matrix(testX)
-preds <- predict(mod1, newx = testX, s = "lambda.min")
-```
-
-
-
-
-```{r}
-
-testNames <- colnames(testDF)
-y <- as.matrix(trainDF$SalePrice)
-X <- trainDF[testNames]
-
-X$SalePrice <- trainDF$SalePrice
-
-#mod1 <- cv.glmnet(X, y, type.measure = "mse", nfolds = 10)
-
-x=model.matrix(SalePrice~.-1,data=X) 
-y=trainDF$SalePrice
-
-cv.lasso=cv.glmnet(x,y)
-plot(cv.lasso)
+predsActual = predict(svmMod, trainDF)
+qplot(x = exp(predsActual), 
+      y =  exp(trainDF$SalePrice), 
+      xlab = 'Actual Sale Price',
+      ylab = 'Predicted Sale Price',
+      main = 'Scatter Plot') + 
+  theme_minimal()
 ```
 
 
 ```{r}
-SalePrice <- exp(preds)
-ans <- data.frame( list(Id = id, SalePrice = SalePrice))
-colnames(ans) <- c('Id', 'SalePrice')
-write.csv(ans, 'kaislasso.csv', row.names = FALSE)
+train <- read.csv("train.csv")
+
+
+linearMod <-lm(SalePrice ~ YearBuilt, data=train)
+
+
+linPred <- predict(linearMod, train)
+qplot(train$SalePrice, 
+      linPred,
+      xlab = 'Actual',
+      ylab = 'Predicted',
+      main = 'Scatter for Linear Regression') +
+  theme_minimal()
+
+# 0.33 on the training set.
+
 ```
 
+We can see this looks very non-linear. This is why the SVM worked so much better. 
+
+
+```{r}
+max(abs(trainDF$SalePrice - predsActual))
+diagnostic <- trainDF
+diagnostic$Preds <- predsActual
+
+diagnostic %>% 
+  filter(abs(SalePrice - Preds) > 0.3 )
+```
+
+
+* Kaggle User Name: https://www.kaggle.com/kailukowiak
+* Kaggle Score: 0.16514
 
 
 
